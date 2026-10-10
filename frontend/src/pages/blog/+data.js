@@ -1,4 +1,4 @@
-import { getPost, getComments } from '../../../api/api';
+import { getPost, getComments } from '../../api/api';
 
 export async function data(pageContext) {
   try {

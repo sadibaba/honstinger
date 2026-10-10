@@ -109,7 +109,7 @@ const ContactSection = () => (
       <h2 className="section-title text-text-primary">JOIN THE CONVERSATION</h2>
       <p className="section-subtitle text-text-secondary mb-12">Have a story to tell? A question to ask? We'd love to hear from you.</p>
       <div className="flex flex-wrap gap-4 justify-center">
-        <a href="/contact" className="inline-block px-10 py-4 bg-accent text-primary font-bold rounded-full hover:bg-amber-300 transition-all duration-300 text-lg tracking-wider">Get in Touch</a>
+        
         <a href="/posts" className="inline-block px-10 py-4 bg-secondary/60 backdrop-blur-sm text-text-primary font-medium rounded-full hover:bg-secondary transition-all border border-secondary/50 text-lg tracking-wider">Browse Stories</a>
       </div>
     </div>
