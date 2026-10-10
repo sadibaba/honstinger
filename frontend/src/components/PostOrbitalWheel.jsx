@@ -259,7 +259,7 @@ const PostOrbitalWheel = ({ posts }) => {
                 }}
               /> */}
               <img
-                src={getImageUrl(post.image) || FALLBACK_IMG}
+                src={getImageUrl(post.imageUrl || post.image) || FALLBACK_IMG}
                 alt={post.title}
                 draggable={false}
                 className="absolute inset-0 h-full w-full object-cover"

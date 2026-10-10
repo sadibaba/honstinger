@@ -196,10 +196,10 @@ const BlogDetail = () => {
           </div>
 
           {/* Cover Image */}
-          {getImageUrl(blog.image) && (
+          {getImageUrl(blog.imageUrl || blog.image) && (
             <div className="relative h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden mb-10">
               <img
-                src={getImageUrl(blog.image)}
+                src={getImageUrl(blog.imageUrl || blog.image)}
                 alt={blog.title}
                 className="w-full h-full object-cover"
                 onError={(e) => {

@@ -15,14 +15,14 @@ import Footer from "./components/Footer";
 import CookieBanner from "./components/CookieBanner";
 
 /* ── Lazy loaded pages ─────────────────────────────────── */
+const AdminLogin = lazy(() => import("./components/AdminLogin"));
 const Home = lazy(() => import("./components/Home"));
 const AllPosts = lazy(() => import("./components/AllPosts"));
 const BlogDetail = lazy(() => import("./components/BlogDetail"));
-// const About = lazy(() => import("./components/About"));
-// const Contact = lazy(() => import("./components/Contact"));
+const About = lazy(() => import("./components/About"));
+const Contact = lazy(() => import("./components/Contact"));
 const Details = lazy(() => import("./components/Details"));
 
-/* ── Legal pages ─────────────────────────────────────────── */
 const Terms = lazy(() => import("./components/legal/Terms"));
 const Privacy = lazy(() => import("./components/legal/Privacy"));
 const Cookies = lazy(() => import("./components/legal/Cookies"));
@@ -31,34 +31,31 @@ const AcceptableUse = lazy(() => import("./components/legal/AcceptableUse"));
 const DMCA = lazy(() => import("./components/legal/DMCA"));
 const RefundPolicy = lazy(() => import("./components/legal/RefundPolicy"));
 
-/* ── Page loader ─────────────────────────────────────── */
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-primary">
     <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-accent" />
   </div>
 );
 
-/* ── Routes ──────────────────────────────────────────────── */
 const AnimatedRoutes = () => {
   const location = useLocation();
+  const isAuthPage = location.pathname === "/admin-login";
 
   return (
     <>
       <AnimatePresence mode="wait">
         <Suspense fallback={<PageLoader />}>
           <Routes location={location} key={location.pathname}>
-            {/* Public routes */}
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/posts" element={<AllPosts />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
 
-            {/* Info pages */}
-            {/* <Route path="/about" element={<About />} /> */}
+            <Route path="/about" element={<About />} />
             <Route path="/details" element={<Details />} />
-            {/* <Route path="/contact" element={<Contact />} /> */}
+            <Route path="/contact" element={<Contact />} />
 
-            {/* Legal pages */}
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/cookies" element={<Cookies />} />
@@ -67,21 +64,18 @@ const AnimatedRoutes = () => {
             <Route path="/dmca" element={<DMCA />} />
             <Route path="/refund" element={<RefundPolicy />} />
 
-            {/* 404 fallback */}
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
         </Suspense>
       </AnimatePresence>
 
-      <Footer />
-      <CookieBanner />
+      {!isAuthPage && <Footer />}
+      {!isAuthPage && <CookieBanner />}
     </>
   );
 };
 
-/* ── Main App ────────────────────────────────────────────── */
 function App() {
-  /* Custom cursor logic */
   useEffect(() => {
     const cursorDot = document.querySelector(".cursor-dot");
     const cursorOutline = document.querySelector(".cursor-outline");

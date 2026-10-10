@@ -3,7 +3,6 @@ import {
   createPost, updatePost, deletePost, getPosts, getPost,
 } from '../controllers/postController.js';
 import { adminOnly } from '../middlewares/adminMiddleware.js';
-import { uploadPostImage } from '../middlewares/localUpload.js';
 
 const router = express.Router();
 
@@ -11,9 +10,9 @@ const router = express.Router();
 router.get('/', getPosts);
 router.get('/:id', getPost);
 
-// Admin only (credentials via body or headers)
-router.post('/', adminOnly, uploadPostImage.single('image'), createPost);
-router.put('/:id', adminOnly, uploadPostImage.single('image'), updatePost);
+// Admin only — multer ki zaroorat nahi
+router.post('/', adminOnly, createPost);
+router.put('/:id', adminOnly, updatePost);
 router.delete('/:id', adminOnly, deletePost);
 
 export default router;

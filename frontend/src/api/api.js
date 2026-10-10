@@ -1,11 +1,11 @@
-const API_URL = "http://localhost:5000/api";
-const BASE_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:5000";
 
 // ─────────────────────────────────────────────────────────────
-// ADMIN CREDENTIALS (hardcoded — .env se match karna chahiye)
+// ADMIN CREDENTIALS (from .env)
 // ─────────────────────────────────────────────────────────────
-const ADMIN_EMAIL = "s@s.com";
-const ADMIN_PASSWORD = "12345678";
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL 
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD 
 
 const getAdminCredentials = () => ({
   adminEmail: ADMIN_EMAIL,
@@ -88,25 +88,15 @@ export const getData = async (endpoint) => {
 // ─────────────────────────────────────────────────────────────
 export const postData = async (endpoint, data, isFormData = false) => {
   try {
-    let body;
-    const headers = { Accept: "application/json" };
-
-    if (isFormData) {
-      const creds = getAdminCredentials();
-      data.append("adminEmail", creds.adminEmail);
-      data.append("adminPassword", creds.adminPassword);
-      body = data;
-    } else {
-      const creds = getAdminCredentials();
-      const payload = { ...(data || {}), ...creds };
-      headers["Content-Type"] = "application/json";
-      body = JSON.stringify(payload);
-    }
-
+    const creds = getAdminCredentials();
     const res = await fetch(`${API_URL}/${endpoint}`, {
       method: "POST",
-      headers,
-      body,
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-email": creds.adminEmail,
+        "x-admin-password": creds.adminPassword,
+      },
+      body: JSON.stringify(data),
     });
     return await handleResponse(res);
   } catch (error) {
@@ -213,12 +203,9 @@ export const getPost = async (id) => {
 
 export const createPost = async (data) => {
   try {
-    const isFormData = data instanceof FormData;
-    const response = await postData("posts", data, isFormData);
-
+    const response = await postData("posts", data);   // 👈 isFormData nahi
     localStorage.removeItem("posts_cache");
     localStorage.removeItem("posts_cache_time");
-
     if (response && response.post) {
       return { success: true, data: { post: response.post } };
     }

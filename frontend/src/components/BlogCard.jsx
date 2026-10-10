@@ -17,7 +17,7 @@ const BlogCard = ({ blog, onReadMore }) => {
   const likes = blog.likesCount || blog.likes?.length || 0;
   const comments = blog.commentsCount || blog.comments?.length || 0;
 
-  const image = getImageUrl(blog.image) || FALLBACK_IMG;
+ const image = getImageUrl(blog.imageUrl || blog.image) || FALLBACK_IMG;
 
   const handleReadMore = () => {
     if (onReadMore) { onReadMore(id); } else { navigate(`/blog/${id}`); }

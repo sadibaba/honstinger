@@ -18,7 +18,8 @@ const deleteLocalFile = async (relativePath) => {
 // CREATE POST (admin only via middleware)
 export const createPost = async (req, res) => {
   try {
-    const { title, content, category, tags, excerpt } = req.body;
+    const { title, content, category, tags, excerpt, imageUrl } = req.body;   // 👈 imageUrl add kiya
+
 
     if (!title?.trim()) return res.status(400).json({ success: false, message: 'Title required' });
     if (!content?.trim()) return res.status(400).json({ success: false, message: 'Content required' });
@@ -35,8 +36,10 @@ export const createPost = async (req, res) => {
       category: category.trim(),
       tags: tags ? (Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()).filter(Boolean)) : [],
       slug,
+      imageUrl: imageUrl?.trim() || null,   // 👈 YE ZAROORI HAI
     };
 
+    // (Ye purana local upload ka code hai — agar file upload chahiye to rakho, warna hata do)
     if (req.file) postData.imageUrl = `/uploads/posts/${req.file.filename}`;
 
     const post = await Post.create(postData);
@@ -53,17 +56,14 @@ export const updatePost = async (req, res) => {
     const post = await Post.findByPk(req.params.id);
     if (!post) return res.status(404).json({ success: false, message: 'Post not found' });
 
-    const { title, content, category, tags, excerpt } = req.body;
+    const { title, content, category, tags, excerpt, imageUrl } = req.body;   // 👈 imageUrl add kiya
+
     if (title) post.title = title.trim();
     if (content) post.content = content.trim();
     if (category) post.category = category.trim();
     if (excerpt) post.excerpt = excerpt.trim();
     if (tags) post.tags = Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim()).filter(Boolean);
-
-    if (req.file) {
-      if (post.imageUrl) await deleteLocalFile(post.imageUrl);
-      post.imageUrl = `/uploads/posts/${req.file.filename}`;
-    }
+    if (imageUrl !== undefined) post.imageUrl = imageUrl?.trim() || null;   // 👈 YE ZAROORI HAI
 
     await post.save();
     return res.status(200).json({ success: true, post });
@@ -71,21 +71,18 @@ export const updatePost = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
-
 // DELETE POST
 export const deletePost = async (req, res) => {
   try {
     const post = await Post.findByPk(req.params.id);
     if (!post) return res.status(404).json({ success: false, message: 'Post not found' });
 
-    if (post.imageUrl) await deleteLocalFile(post.imageUrl);
     await post.destroy();
     return res.status(200).json({ success: true, message: 'Deleted' });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
-
 // GET ALL POSTS (public)
 export const getPosts = async (req, res) => {
   try {

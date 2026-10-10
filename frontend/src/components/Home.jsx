@@ -136,7 +136,6 @@ const FeaturedSection = ({ blogs, loading }) => {
   return (
     <section id="featured" className="section bg-primary">
       <div className="max-w-7xl mx-auto w-full">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row items-center justify-between mb-16 gap-4">
           <h2 className="section-title text-text-primary !mb-0">FEATURED STORIES</h2>
           <button
@@ -150,7 +149,6 @@ const FeaturedSection = ({ blogs, loading }) => {
           </button>
         </div>
 
-        {/* Grid */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
@@ -236,24 +234,12 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("userName");
-    const userEmail = localStorage.getItem("userEmail");
-    const userRole = localStorage.getItem("userRole");
-    const userAvatar = localStorage.getItem("userAvatar");
-    if (token && userName) {
-      setUser({
-        role: userRole || "reader",
-        name: userName,
-        email: userEmail,
-        token,
-        avatar: userAvatar,
-      });
-    }
+    // Check admin status from localStorage
+    setIsAdmin(localStorage.getItem("isAdmin") === "true");
     fetchBlogs();
   }, []);
 
@@ -289,7 +275,7 @@ const Home = () => {
         })
       : "Unknown date",
     category: blog.category || "Uncategorized",
-    image: getImageUrl(blog.image),
+    image: getImageUrl(blog.imageUrl || blog.image),
     readTime:
       blog.readTime ||
       `${Math.ceil((blog.content?.split(" ").length || 0) / 200) || 3} min read`,
@@ -301,8 +287,8 @@ const Home = () => {
   });
 
   const handleCreateBlog = () => {
-  setShowCreateModal(true);
-};
+    setShowCreateModal(true);
+  };
 
   const handleCreateSuccess = async (newPost) => {
     if (newPost) {
@@ -313,32 +299,32 @@ const Home = () => {
   };
 
   return (
-  <div className="bg-primary">      
-    {user?.role === "admin" && (
-      <button
-  onClick={handleCreateBlog}
-  className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent rounded-full shadow-lg flex items-center justify-center hover:bg-amber-300 transition-all duration-300 hover:scale-110"
-  aria-label="Write blog"
->
-  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-  </svg>
-</button>
-    )}
+    <div className="bg-primary">
+      {isAdmin && (
+        <button
+          onClick={handleCreateBlog}
+          className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent rounded-full shadow-lg flex items-center justify-center hover:bg-amber-300 transition-all duration-300 hover:scale-110"
+          aria-label="Write blog"
+        >
+          <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
+      )}
 
-    <HeroSection />
-    <AboutSection />
-    <FeaturedSection blogs={blogs} loading={loading} />
-    <ContactSection />
+      <HeroSection />
+      <AboutSection />
+      <FeaturedSection blogs={blogs} loading={loading} />
+      <ContactSection />
 
-    {showCreateModal && (
-      <CreateBlogModal
-        onClose={() => setShowCreateModal(false)}
-        onSuccess={handleCreateSuccess}
-      />
-    )}
-  </div>
-);
+      {showCreateModal && (
+        <CreateBlogModal
+          onClose={() => setShowCreateModal(false)}
+          onSuccess={handleCreateSuccess}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Home;

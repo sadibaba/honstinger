@@ -17,27 +17,15 @@ const AllPosts = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [categories, setCategories] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const containerRef = useRef(null);
   const gridRef = useRef(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const userName = localStorage.getItem('userName');
-    const userEmail = localStorage.getItem('userEmail');
-    const userRole = localStorage.getItem('userRole');
-    const userAvatar = localStorage.getItem('userAvatar');
-    if (token && userName) {
-      setUser({
-        role: userRole || 'reader',
-        name: userName,
-        email: userEmail,
-        token,
-        avatar: userAvatar,
-      });
-    }
+    // Check admin status from localStorage
+    setIsAdmin(localStorage.getItem("isAdmin") === "true");
     fetchBlogs();
   }, []);
 
@@ -119,7 +107,7 @@ const AllPosts = () => {
     author: blog.author,
     date: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Unknown date',
     category: blog.category || 'Uncategorized',
-    image: getImageUrl(blog.image),
+    image: getImageUrl(blog.imageUrl || blog.image),
     readTime: blog.readTime || `${Math.ceil((blog.content?.split(' ').length || 0) / 200) || 3} min read`,
     likes: blog.likes?.length || 0,
     likesArray: blog.likes || [],
@@ -159,13 +147,6 @@ const AllPosts = () => {
   };
 
   const handleCreateBlog = () => {
-    const token = localStorage.getItem('token');
-    if (!token) { navigate('/auth'); return; }
-    // 👈 Only admin can create
-    if (user?.role !== 'admin') {
-      alert('Only admin can publish stories. You can like and comment.');
-      return;
-    }
     setShowCreateModal(true);
   };
 
@@ -179,21 +160,15 @@ const AllPosts = () => {
     }
   };
 
-  const isAdmin = user?.role === 'admin';
-
   return (
     <div ref={containerRef} className="min-h-screen bg-primary pt-32 pb-20 relative overflow-hidden">
-      {/* ============ CINEMATIC BACKGROUND (theme-aware) ============ */}
+      {/* ============ CINEMATIC BACKGROUND ============ */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        {/* Base gradient — uses theme vars */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/95 to-primary"></div>
-
-        {/* Glowing orbs — theme-aware */}
         <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-accent/[0.06] blur-[120px] animate-pulse-slow"></div>
         <div className="absolute top-[30%] right-[-15%] w-[700px] h-[700px] rounded-full bg-secondary/60 blur-[140px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
         <div className="absolute bottom-[-10%] left-[20%] w-[500px] h-[500px] rounded-full bg-accent/[0.04] blur-[100px] animate-pulse-slow" style={{ animationDelay: '4s' }}></div>
 
-        {/* Grain texture */}
         <div
           className="absolute inset-0 opacity-[0.03] mix-blend-overlay"
           style={{
@@ -201,10 +176,8 @@ const AllPosts = () => {
           }}
         ></div>
 
-        {/* Vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.15)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]"></div>
 
-        {/* Grid lines — theme accent color */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
