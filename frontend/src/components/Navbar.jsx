@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  const userName = localStorage.getItem("userName");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,11 +13,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/auth");
-  };
 
   const isAuthPage = location.pathname === "/auth";
   if (isAuthPage) return null;
@@ -79,52 +71,30 @@ const Navbar = () => {
             >
               Details
             </Link>
-            <Link
+            {/* <Link
               to="/about"
               className="text-text-secondary hover:text-accent transition-colors text-sm font-medium"
             >
               About
-            </Link>
-            <Link
+            </Link> */}
+            {/* <Link
               to="/contact"
               className="text-text-secondary hover:text-accent transition-colors text-sm font-medium"
             >
               Contact
-            </Link>
+            </Link> */}
           </div>
 
           {/* ── Right Side ── */}
           <div className="flex items-center space-x-3">
             <ThemeToggle />
 
-            {token ? (
-              <>
-                <Link
-                  to="/account"
-                  className="flex items-center space-x-2 group"
-                  title="My Account"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-accent to-amber-300 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <span className="text-primary text-xs font-bold">
-                      {userName?.charAt(0).toUpperCase() || "U"}
-                    </span>
-                  </div>
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-text-secondary hover:text-accent transition-colors text-sm font-medium"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link
-                to="/auth"
-                className="px-5 py-2 bg-accent text-primary rounded-full text-sm font-bold hover:bg-amber-300 transition-colors"
-              >
-                Sign In
-              </Link>
-            )}
+            <Link
+              to="/posts"
+              className="hidden sm:inline-flex px-5 py-2 bg-accent text-primary rounded-full text-sm font-bold hover:bg-amber-300 transition-colors"
+            >
+              Read Stories
+            </Link>
           </div>
         </div>
       </div>

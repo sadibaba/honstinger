@@ -6,24 +6,20 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useState, Suspense, lazy } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { ThemeProvider } from "./context/ThemeContext";
-import OnboardingTutorial from "./components/OnboardingTutorial";
 import "./App.css";
 import Cursor from "./components/Cursor";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CookieBanner from "./components/CookieBanner";
 
-/* ── Lazy loaded pages (fast processing) ─────────────────── */
-const LoginSignup = lazy(() => import("./components/LoginSignup"));
+/* ── Lazy loaded pages ─────────────────────────────────── */
 const Home = lazy(() => import("./components/Home"));
 const AllPosts = lazy(() => import("./components/AllPosts"));
-const AccountPage = lazy(() => import("./components/AccountPage"));
 const BlogDetail = lazy(() => import("./components/BlogDetail"));
-const Dashboard = lazy(() => import("./components/Dashboard"));
-const About = lazy(() => import("./components/About"));
-const Contact = lazy(() => import("./components/Contact"));
+// const About = lazy(() => import("./components/About"));
+// const Contact = lazy(() => import("./components/Contact"));
 const Details = lazy(() => import("./components/Details"));
 
 /* ── Legal pages ─────────────────────────────────────────── */
@@ -35,7 +31,7 @@ const AcceptableUse = lazy(() => import("./components/legal/AcceptableUse"));
 const DMCA = lazy(() => import("./components/legal/DMCA"));
 const RefundPolicy = lazy(() => import("./components/legal/RefundPolicy"));
 
-/* ── Page loader (suspense fallback) ─────────────────────── */
+/* ── Page loader ─────────────────────────────────────── */
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-primary">
     <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-accent" />
@@ -46,26 +42,21 @@ const PageLoader = () => (
 const AnimatedRoutes = () => {
   const location = useLocation();
 
-  const isAuthPage = location.pathname === "/auth";
-
   return (
     <>
       <AnimatePresence mode="wait">
         <Suspense fallback={<PageLoader />}>
           <Routes location={location} key={location.pathname}>
-            {/* Auth / Public */}
-            <Route path="/" element={<Navigate to="/auth" />} />
-            <Route path="/auth" element={<LoginSignup />} />
+            {/* Public routes */}
+            <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
             <Route path="/posts" element={<AllPosts />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
 
             {/* Info pages */}
-            <Route path="/about" element={<About />} />
+            {/* <Route path="/about" element={<About />} /> */}
             <Route path="/details" element={<Details />} />
-            <Route path="/contact" element={<Contact />} />
+            {/* <Route path="/contact" element={<Contact />} /> */}
 
             {/* Legal pages */}
             <Route path="/terms" element={<Terms />} />
@@ -82,26 +73,14 @@ const AnimatedRoutes = () => {
         </Suspense>
       </AnimatePresence>
 
-      {!isAuthPage && <Footer />}
-
-      {!isAuthPage && <CookieBanner />}
+      <Footer />
+      <CookieBanner />
     </>
   );
 };
 
 /* ── Main App ────────────────────────────────────────────── */
 function App() {
-  const [showTutorial, setShowTutorial] = useState(false);
-
-  /* Show tutorial only if logged in AND hasn't seen it yet */
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const seen = localStorage.getItem("hasSeenTutorial");
-    if (token && seen !== "true") {
-      setShowTutorial(true);
-    }
-  }, []);
-
   /* Custom cursor logic */
   useEffect(() => {
     const cursorDot = document.querySelector(".cursor-dot");
@@ -144,11 +123,6 @@ function App() {
     };
   }, []);
 
-  const handleTutorialComplete = () => {
-    localStorage.setItem("hasSeenTutorial", "true");
-    setShowTutorial(false);
-  };
-
   return (
     <ThemeProvider>
       <Router>
@@ -158,9 +132,6 @@ function App() {
           <main className="flex-1">
             <AnimatedRoutes />
           </main>
-          {showTutorial && (
-            <OnboardingTutorial onComplete={handleTutorialComplete} />
-          )}
         </div>
       </Router>
     </ThemeProvider>

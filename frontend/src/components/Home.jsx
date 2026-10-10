@@ -301,19 +301,8 @@ const Home = () => {
   });
 
   const handleCreateBlog = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/auth");
-      return;
-    }
-    // 👈 Sirf admin post kar sakta hai
-    const role = localStorage.getItem("userRole");
-    if (role !== "admin") {
-      alert("Only admin can publish stories. You can like and comment.");
-      return;
-    }
-    setShowCreateModal(true);
-  };
+  setShowCreateModal(true);
+};
 
   const handleCreateSuccess = async (newPost) => {
     if (newPost) {
@@ -327,14 +316,14 @@ const Home = () => {
   <div className="bg-primary">      
     {user?.role === "admin" && (
       <button
-        onClick={handleCreateBlog}
-        className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent rounded-full shadow-lg flex items-center justify-center hover:bg-amber-300 transition-all duration-300 hover:scale-110"
-        aria-label="Write blog"
-      >
-        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-        </svg>
-      </button>
+  onClick={handleCreateBlog}
+  className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent rounded-full shadow-lg flex items-center justify-center hover:bg-amber-300 transition-all duration-300 hover:scale-110"
+  aria-label="Write blog"
+>
+  <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+  </svg>
+</button>
     )}
 
     <HeroSection />

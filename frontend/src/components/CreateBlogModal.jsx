@@ -35,32 +35,30 @@ const CreateBlogModal = ({ onClose, onSuccess }) => {
     return true;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    const token = localStorage.getItem('token');
-    if (!token) { setError('You must be logged in to create a post'); setTimeout(() => { window.location.href = '/auth'; }, 2000); return; }
-    setLoading(true);
-    setError('');
-    try {
-      const postFormData = new FormData();
-      postFormData.append('title', formData.title.trim());
-      postFormData.append('content', formData.content.trim());
-      postFormData.append('category', formData.category);
-      postFormData.append('excerpt', formData.excerpt.trim());
-      if (formData.image) { postFormData.append('image', formData.image); }
-      const response = await createPost(postFormData, token);
-      const postData = response?.post || response?.data?.post || response?.data || response;
-      setSuccess('Post published successfully!');
-      if (onSuccess) await onSuccess(postData);
-      setTimeout(() => onClose(), 1200);
-    } catch (err) {
-      console.error('Create post error:', err);
-      setError(err.message || 'Failed to create post. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateForm()) return;
+  setLoading(true);
+  setError('');
+  try {
+    const postFormData = new FormData();
+    postFormData.append('title', formData.title.trim());
+    postFormData.append('content', formData.content.trim());
+    postFormData.append('category', formData.category);
+    postFormData.append('excerpt', formData.excerpt.trim());
+    if (formData.image) { postFormData.append('image', formData.image); }
+    const response = await createPost(postFormData);   // 👈 token hata diya
+    const postData = response?.post || response?.data?.post || response?.data || response;
+    setSuccess('Post published successfully!');
+    if (onSuccess) await onSuccess(postData);
+    setTimeout(() => onClose(), 1200);
+  } catch (err) {
+    console.error('Create post error:', err);
+    setError(err.message || 'Failed to create post.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <motion.div
