@@ -22,7 +22,7 @@ const BlogDetail = lazy(() => import("./components/BlogDetail"));
 const About = lazy(() => import("./components/About"));
 const Contact = lazy(() => import("./components/Contact"));
 const Details = lazy(() => import("./components/Details"));
-
+const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 const Terms = lazy(() => import("./components/legal/Terms"));
 const Privacy = lazy(() => import("./components/legal/Privacy"));
 const Cookies = lazy(() => import("./components/legal/Cookies"));
@@ -51,7 +51,7 @@ const AnimatedRoutes = () => {
             <Route path="/posts" element={<AllPosts />} />
             <Route path="/blog/:id" element={<BlogDetail />} />
             <Route path="/admin-login" element={<AdminLogin />} />
-
+            <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/about" element={<About />} />
             <Route path="/details" element={<Details />} />
             <Route path="/contact" element={<Contact />} />
@@ -86,7 +86,7 @@ function App() {
       cursorDot.style.top = `${e.clientY}px`;
       cursorOutline.animate(
         { left: `${e.clientX}px`, top: `${e.clientY}px` },
-        { duration: 500, fill: "forwards" }
+        { duration: 500, fill: "forwards" },
       );
     };
 

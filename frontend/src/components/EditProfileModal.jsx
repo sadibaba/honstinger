@@ -1,78 +1,78 @@
-import React, { useState } from 'react';
-import { updateUserProfile, uploadAvatar } from '../api/api';
+import React, { useState, useEffect } from 'react';
+import { updatePost } from '../api/api';
 import { motion } from 'framer-motion';
 
-const EditProfileModal = ({ user, onClose, onSave }) => {
+const EditPostModal = ({ post, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
-    name: user.name || '',
-    email: user.email || '',
-    bio: user.bio || '',
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+    title: '',
+    content: '',
+    category: '',
+    excerpt: '',
+    imageUrl: '',
   });
-  const [avatar, setAvatar] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState(user.avatar || '');
+  const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const categories = [
+    'Technology', 'Lifestyle', 'Travel', 'Science', 'Leaders',
+    'Scientists', 'Inventors', 'Inspiration', 'Food', 'Health',
+    'Business', 'Entertainment', 'Education',
+  ];
+
+  useEffect(() => {
+    if (post) {
+      setFormData({
+        title: post.title || '',
+        content: post.content || '',
+        category: post.category || '',
+        excerpt: post.excerpt || '',
+        imageUrl: post.imageUrl || post.image || '',
+      });
+      setImagePreview(post.imageUrl || post.image || '');
+    }
+  }, [post]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError('');
-    setSuccess('');
+    if (name === 'imageUrl') setImagePreview(value);
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { setError('Image size should be less than 5MB'); return; }
-    if (!file.type.startsWith('image/')) { setError('Please upload a valid image file'); return; }
-    setAvatar(file);
-    const reader = new FileReader();
-    reader.onloadend = () => setAvatarPreview(reader.result);
-    reader.readAsDataURL(file);
+  const validateForm = () => {
+    if (!formData.title.trim()) { setError('Title is required'); return false; }
+    if (!formData.content.trim()) { setError('Content is required'); return false; }
+    if (!formData.category) { setError('Please select a category'); return false; }
+    if (!formData.excerpt.trim()) { setError('Short description is required'); return false; }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     setLoading(true);
     setError('');
-    setSuccess('');
-
-    if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
-      setError('New passwords do not match');
-      setLoading(false);
-      return;
-    }
 
     try {
-      let avatarUrl = user.avatar;
-      if (avatar) {
-        const avatarFormData = new FormData();
-        avatarFormData.append('avatar', avatar);
-        const avatarResponse = await uploadAvatar(avatarFormData);
-        avatarUrl = avatarResponse.avatar || avatarResponse.data?.avatar;
-        if (avatarUrl) localStorage.setItem('userAvatar', avatarUrl);
-      }
+      const payload = {
+        title: formData.title.trim(),
+        content: formData.content.trim(),
+        category: formData.category,
+        excerpt: formData.excerpt.trim(),
+        imageUrl: formData.imageUrl.trim() || null,
+      };
 
-      const updateData = { name: formData.name, email: formData.email, bio: formData.bio };
-      if (formData.newPassword && formData.currentPassword) {
-        updateData.currentPassword = formData.currentPassword;
-        updateData.newPassword = formData.newPassword;
-      }
+      const id = post.id || post._id;
+      const response = await updatePost(id, payload);
 
-      await updateUserProfile(updateData);
-      localStorage.setItem('userName', formData.name);
-      localStorage.setItem('userEmail', formData.email);
-      localStorage.setItem('userBio', formData.bio);
-
-      setSuccess('Profile updated successfully!');
-      onSave({ ...updateData, avatar: avatarUrl });
-      setTimeout(() => { onClose(); }, 1200);
+      setSuccess('Post updated successfully!');
+      if (onSuccess) await onSuccess(response?.post || response);
+      setTimeout(() => onClose(), 1200);
     } catch (err) {
-      setError(err.message || 'Failed to update profile');
+      console.error('Update post error:', err);
+      setError(err.message || 'Failed to update post.');
     } finally {
       setLoading(false);
     }
@@ -83,101 +83,195 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-start justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto"
     >
       <motion.div
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="glass rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+        className="glass rounded-2xl w-full max-w-4xl my-8"
       >
-        <div className="sticky top-0 z-10 glass border-b border-secondary/50 p-6 rounded-t-2xl">
+        <div className="sticky top-0 z-10 glass border-b border-secondary/50 p-4 sm:p-6 rounded-t-2xl">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-2xl text-text-primary">Edit Profile</h2>
-            <button onClick={onClose} className="p-2 hover:bg-secondary/50 rounded-lg transition-colors" disabled={loading}>
-              <svg className="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <div>
+              <h2 className="font-display text-2xl text-text-primary">Edit Story</h2>
+              <p className="text-text-secondary text-sm">Update your story details</p>
+            </div>
+            <button onClick={onClose} className="p-2 hover:bg-secondary/50 rounded-lg transition-colors">
+              <svg className="w-6 h-6 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {error && (<div className="bg-red-900/30 border border-red-800 text-red-400 px-4 py-3 rounded-lg text-sm">{error}</div>)}
-          {success && (<div className="bg-green-900/30 border border-green-800 text-green-400 px-4 py-3 rounded-lg text-sm">{success}</div>)}
+        <div className="px-4 sm:px-6">
+          {error && (
+            <div className="mt-4 p-4 bg-red-900/30 border border-red-800 rounded-lg flex items-start gap-3">
+              <svg className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-red-400 text-sm">{error}</p>
+            </div>
+          )}
+          {success && (
+            <div className="mt-4 p-4 bg-green-900/30 border border-green-800 rounded-lg flex items-center gap-3">
+              <svg className="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <p className="text-green-400 text-sm">{success}</p>
+            </div>
+          )}
+        </div>
 
-          {/* Avatar */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-text-primary">Profile Picture</h3>
-            <div className="flex items-center gap-6">
-              <div className="relative">
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-r from-accent to-amber-300">
-                  <img src={avatarPreview} alt="Profile" className="w-full h-full object-cover"
-                    onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=B8873E&color=fff&size=200`; }} />
-                </div>
-                <label htmlFor="avatar-upload" className="absolute bottom-0 right-0 p-1.5 bg-primary rounded-full border border-secondary cursor-pointer hover:bg-secondary transition-colors">
-                  <svg className="w-4 h-4 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+        <div className="p-4 sm:p-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">
+                Story Title <span className="text-red-400">*</span>
+              </label>
+              <input
+                name="title"
+                type="text"
+                required
+                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary placeholder-text-secondary focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
+                placeholder="A catchy title..."
+                value={formData.title}
+                onChange={handleChange}
+                maxLength="200"
+              />
+            </div>
+
+            <div>
+              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">
+                Short Description <span className="text-red-400">*</span>
+              </label>
+              <textarea
+                name="excerpt"
+                rows="2"
+                required
+                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary placeholder-text-secondary focus:ring-2 focus:ring-accent focus:border-transparent text-sm resize-none"
+                placeholder="A brief summary..."
+                value={formData.excerpt}
+                onChange={handleChange}
+                maxLength="300"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">
+                  Category <span className="text-red-400">*</span>
                 </label>
-                <input id="avatar-upload" type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
+                <select
+                  name="category"
+                  required
+                  className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
+                  value={formData.category}
+                  onChange={handleChange}
+                >
+                  <option value="">Select a category</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
               </div>
-              <p className="text-text-secondary text-sm">Click the camera icon to change</p>
-            </div>
-          </div>
 
-          {/* Info */}
-          <div className="space-y-4 pt-4 border-t border-secondary/50">
-            <h3 className="text-lg font-semibold text-text-primary">Profile Information</h3>
-            <div>
-              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">Full Name</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required disabled={loading}
-                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50" />
-            </div>
-            <div>
-              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">Email Address</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required disabled={loading}
-                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50" />
-            </div>
-            <div>
-              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">Bio</label>
-              <textarea name="bio" rows="4" value={formData.bio} onChange={handleChange} disabled={loading}
-                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50 font-serif"
-                placeholder="Tell us about yourself..." maxLength="200" />
-              <p className="text-text-secondary text-xs mt-2">{formData.bio.length}/200</p>
-            </div>
-          </div>
-
-          {/* Password */}
-          <div className="space-y-4 pt-4 border-t border-secondary/50">
-            <h3 className="text-lg font-semibold text-text-primary">Change Password</h3>
-            <p className="text-text-secondary text-sm">Leave blank to keep current password</p>
-            <div>
-              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">Current Password</label>
-              <input type="password" name="currentPassword" value={formData.currentPassword} onChange={handleChange} disabled={loading}
-                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50" placeholder="••••••••" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">New Password</label>
-                <input type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} disabled={loading}
-                  className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50" placeholder="••••••••" />
-              </div>
-              <div>
-                <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">Confirm Password</label>
-                <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} disabled={loading}
-                  className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary focus:ring-2 focus:ring-accent focus:border-transparent disabled:opacity-50" placeholder="••••••••" />
+                <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">
+                  Cover Image URL <span className="text-text-secondary/60">(optional)</span>
+                </label>
+                <input
+                  type="url"
+                  name="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary placeholder-text-secondary focus:ring-2 focus:ring-accent focus:border-transparent text-sm"
+                  placeholder="https://images.unsplash.com/..."
+                />
               </div>
             </div>
-          </div>
 
-          <div className="flex items-center justify-between pt-4 border-t border-secondary/50">
-            <button type="button" onClick={onClose} disabled={loading} className="px-6 py-3 text-text-secondary hover:text-text-primary font-medium disabled:opacity-50">Cancel</button>
-            <button type="submit" disabled={loading}
-              className="px-8 py-3 bg-accent text-primary rounded-full font-bold disabled:opacity-50 hover:bg-amber-300 transition-all">
-              {loading ? 'Saving...' : 'Save Changes'}
-            </button>
-          </div>
-        </form>
+            {imagePreview && (
+              <div className="border border-secondary/50 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-text-primary font-medium text-sm">Cover Preview</h3>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImagePreview('');
+                      setFormData((p) => ({ ...p, imageUrl: '' }));
+                    }}
+                    className="text-text-secondary hover:text-red-400 text-xs"
+                  >
+                    Remove
+                  </button>
+                </div>
+                <div className="h-40 rounded-lg overflow-hidden bg-secondary">
+                  <img
+                    src={imagePreview}
+                    alt="Cover preview"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?q=80&w=1974';
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <label className="block text-text-secondary text-xs mb-2 uppercase tracking-wider">
+                Your Story <span className="text-red-400">*</span>
+              </label>
+              <textarea
+                name="content"
+                rows="12"
+                required
+                className="w-full px-4 py-3 bg-primary/50 border border-secondary/50 rounded-lg text-text-primary placeholder-text-secondary focus:ring-2 focus:ring-accent focus:border-transparent text-sm font-serif resize-y"
+                placeholder="Start writing your amazing story here..."
+                value={formData.content}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="flex items-center justify-between pt-4 border-t border-secondary/50">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2.5 text-text-secondary hover:text-text-primary font-medium text-sm transition-colors"
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading || !!success}
+                className="px-6 py-2.5 bg-accent text-primary rounded-full font-bold disabled:opacity-50 flex items-center gap-2 text-sm transition-all hover:bg-amber-300"
+              >
+                {loading ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    <span>Saving...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Save Changes</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </motion.div>
     </motion.div>
   );
 };
 
-export default EditProfileModal;
+export default EditPostModal;

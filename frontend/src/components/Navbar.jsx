@@ -58,18 +58,21 @@ const Navbar = () => {
             <ThemeToggle />
 
             {isAdmin ? (
-              <>
-                <span className="hidden sm:inline-flex px-3 py-1 bg-accent/20 text-accent rounded-full text-xs font-bold">
-                  👑 Admin
-                </span>
-                <button
-                  onClick={handleLogout}
-                  className="text-text-secondary hover:text-red-400 transition-colors text-sm font-medium"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
+  <>
+    <Link
+      to="/admin"
+      className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/20 text-accent rounded-full text-xs font-bold hover:bg-accent/30 transition-colors"
+    >
+       Dashboard
+    </Link>
+    <button
+      onClick={handleLogout}
+      className="text-text-secondary hover:text-red-400 transition-colors text-sm font-medium"
+    >
+      Logout
+    </button>
+  </>
+) : (
               <Link
                 to="/admin-login"
                 className="px-5 py-2 bg-accent text-primary rounded-full text-sm font-bold hover:bg-amber-300 transition-colors"

@@ -110,25 +110,15 @@ export const postData = async (endpoint, data, isFormData = false) => {
 // ─────────────────────────────────────────────────────────────
 export const putData = async (endpoint, data, isFormData = false) => {
   try {
-    let body;
-    const headers = { Accept: "application/json" };
-
-    if (isFormData) {
-      const creds = getAdminCredentials();
-      data.append("adminEmail", creds.adminEmail);
-      data.append("adminPassword", creds.adminPassword);
-      body = data;
-    } else {
-      const creds = getAdminCredentials();
-      const payload = { ...(data || {}), ...creds };
-      headers["Content-Type"] = "application/json";
-      body = JSON.stringify(payload);
-    }
-
+    const creds = getAdminCredentials();
     const res = await fetch(`${API_URL}/${endpoint}`, {
       method: "PUT",
-      headers,
-      body,
+      headers: {
+        "Content-Type": "application/json",
+        "x-admin-email": creds.adminEmail,
+        "x-admin-password": creds.adminPassword,
+      },
+      body: JSON.stringify(data),
     });
     return await handleResponse(res);
   } catch (error) {
@@ -218,8 +208,7 @@ export const createPost = async (data) => {
 
 export const updatePost = async (id, postData) => {
   try {
-    const isFormData = postData instanceof FormData;
-    const response = await putData(`posts/${id}`, postData, isFormData);
+    const response = await putData(`posts/${id}`, postData);
     localStorage.removeItem("posts_cache");
     localStorage.removeItem("posts_cache_time");
     return response.data || response;
