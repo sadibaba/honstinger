@@ -1,23 +1,21 @@
 import React from 'react';
-import { usePageContext } from 'vike-react/usePageContext';
-import { ThemeProvider } from '../context/ThemeContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import Cursor from '../components/Cursor';
 import CookieBanner from '../components/CookieBanner';
-import '../index.css';
+import Cursor from '../components/Cursor';
+import { ThemeProvider } from '../context/ThemeContext';
+import '../App.css';
 
 export default function Layout({ children }) {
-  const pageContext = usePageContext();
-  const urlPathname = pageContext?.urlPathname || '/';
-
   return (
     <ThemeProvider>
       <Cursor />
-      <Navbar urlPathname={urlPathname} />
-      <main className="min-h-screen">{children}</main>
-      <Footer />
-      <CookieBanner />
+      <div className="App bg-primary text-text-primary min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <CookieBanner />
+      </div>
     </ThemeProvider>
   );
 }
