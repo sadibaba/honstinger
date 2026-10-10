@@ -2,24 +2,26 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════
-   THEME VARIABLES — Light (default) & Dark
+   TAILWIND v4 THEME — declares color tokens (light defaults)
    ═══════════════════════════════════════════════════════════ */
-:root,
-[data-theme="light"] {
-  /* ☀️ LIGHT MODE */
+@theme {
   --color-primary: #F5F1EA;
   --color-secondary: #E8E2D6;
   --color-accent: #B8873E;
   --color-text-primary: #1A1F1D;
   --color-text-secondary: #5A6660;
-  --glass: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --shadow-glow: rgba(184, 135, 62, 0.15);
-  --scrollbar-track: #F5F1EA;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES — swap CSS vars via [data-theme]
+   ═══════════════════════════════════════════════════════════ */
 [data-theme="dark"] {
-  /* 🌙 DARK MODE */
   --color-primary: #0A0F0D;
   --color-secondary: #1C2B27;
   --color-accent: #D4A15D;
@@ -27,13 +29,19 @@
   --color-text-secondary: #8A9B96;
   --glass: rgba(28, 43, 39, 0.5);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --shadow-glow: rgba(212, 161, 93, 0.15);
-  --scrollbar-track: #0A0F0D;
+}
+
+:root,
+[data-theme="light"] {
+  --glass: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
 }
 
 /* ═══════════════════════════════════════════════════════════
-   BASE STYLES
+   BASE
    ═══════════════════════════════════════════════════════════ */
+html, body, #root { min-height: 100vh; }
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -45,47 +53,30 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Light mode subtle background glow */
 [data-theme="light"] body {
   background-image: radial-gradient(ellipse at top, rgba(184, 135, 62, 0.04), transparent 60%);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CUSTOM CURSOR
-   ═══════════════════════════════════════════════════════════ */
-.cursor-dot,
-.cursor-outline {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Cursor */
+.cursor-dot, .cursor-outline {
+  position: fixed; top: 0; left: 0;
   transform: translate(-50%, -50%);
-  border-radius: 50%;
-  z-index: 9999;
-  pointer-events: none;
+  border-radius: 50%; z-index: 9999; pointer-events: none;
 }
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-accent);
-}
+.cursor-dot { width: 8px; height: 8px; background-color: var(--color-accent); }
 .cursor-outline {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   border: 1px solid var(--color-text-secondary);
   transition: all 0.2s ease-out;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SCROLLBAR
-   ═══════════════════════════════════════════════════════════ */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-track { background: var(--color-primary); }
 ::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #e0b278; }
 
-/* ═══════════════════════════════════════════════════════════
-   UTILITIES
-   ═══════════════════════════════════════════════════════════ */
+/* Utilities */
 .glass {
   background: var(--glass);
   backdrop-filter: blur(12px);
@@ -106,33 +97,24 @@ body {
 html { scroll-behavior: smooth; }
 
 .section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 4rem 2rem;
-  position: relative;
-  overflow: hidden;
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 4rem 2rem; position: relative; overflow: hidden;
 }
 
 .section-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(3rem, 10vw, 8rem);
-  line-height: 1;
-  letter-spacing: 0.05em;
-  text-align: center;
-  margin-bottom: 2rem;
+  line-height: 1; letter-spacing: 0.05em;
+  text-align: center; margin-bottom: 2rem;
 }
 
 .section-subtitle {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1.2rem, 3vw, 1.8rem);
   color: var(--color-text-secondary);
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
+  text-align: center; max-width: 800px;
+  margin: 0 auto; line-height: 1.6;
 }
 
 @keyframes pulse-slow {
@@ -150,66 +132,39 @@ html { scroll-behavior: smooth; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* ═══════════════════════════════════════════════════════════
-   LEGAL CONTENT TYPOGRAPHY
-   ═══════════════════════════════════════════════════════════ */
+/* Legal content typography */
 .legal-content h2 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.75rem;
-  letter-spacing: 0.03em;
+  font-size: 1.75rem; letter-spacing: 0.03em;
   color: var(--color-text-primary);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 2rem; margin-bottom: 1rem;
 }
 .legal-content h3 {
   font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.1rem; font-weight: 600;
   color: var(--color-text-primary);
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+  margin-top: 1.5rem; margin-bottom: 0.75rem;
 }
 .legal-content p {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: 1rem; line-height: 1.75;
   color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
-.legal-content ul,
-.legal-content ol {
+.legal-content ul, .legal-content ol {
   margin: 1rem 0 1rem 1.5rem;
   color: var(--color-text-secondary);
 }
 .legal-content li {
   font-family: 'Cormorant Garamond', serif;
-  line-height: 1.7;
-  margin-bottom: 0.5rem;
+  line-height: 1.7; margin-bottom: 0.5rem;
 }
 .legal-content a {
   color: var(--color-accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: underline; text-underline-offset: 2px;
 }
-.legal-content strong {
-  color: var(--color-text-primary);
-  font-weight: 600;
-}
-.legal-content hr {
-  border-color: rgba(255, 255, 255, 0.06);
-  margin: 2rem 0;
-}
+.legal-content strong { color: var(--color-text-primary); font-weight: 600; }
+.legal-content hr { border-color: rgba(255, 255, 255, 0.06); margin: 2rem 0; }
 
-/* ═══════════════════════════════════════════════════════════
-   LAYOUT ROOT
-   ═══════════════════════════════════════════════════════════ */
-html, body, #root { min-height: 100vh; }
 #root { display: flex; flex-direction: column; }
-.App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  z-index: 1;
-}
 main { flex: 1; }

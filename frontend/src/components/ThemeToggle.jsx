@@ -3,7 +3,7 @@ import { useTheme } from '../context/ThemeContext';
 import { motion } from 'framer-motion';
 
 const ThemeToggle = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
 
   return (
     <button

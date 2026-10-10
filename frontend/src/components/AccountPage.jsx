@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { navigate } from "vike/client/router";
 import { motion } from "framer-motion";
 import { getUserProfile, updateUserProfile, uploadAvatar } from "../api/api";
 import EditProfileModal from "./EditProfileModal";
 
 const AccountPage = () => {
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -16,12 +15,9 @@ const AccountPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/auth");
-      return;
-    }
+    if (!token) { navigate("/auth"); return; }
     fetchProfile();
-  }, [navigate]);
+  }, []);
 
   const fetchProfile = async () => {
     try {
@@ -40,14 +36,8 @@ const AccountPage = () => {
   const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      alert("Please select an image file.");
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      alert("Image must be under 5MB.");
-      return;
-    }
+    if (!file.type.startsWith("image/")) { alert("Please select an image file."); return; }
+    if (file.size > 5 * 1024 * 1024) { alert("Image must be under 5MB."); return; }
 
     const reader = new FileReader();
     reader.onload = (ev) => setAvatarPreview(ev.target.result);
@@ -105,9 +95,7 @@ const AccountPage = () => {
         <div className="text-center">
           <h3 className="text-xl font-semibold text-text-primary mb-2">Error</h3>
           <p className="text-text-secondary mb-6 text-sm">{error}</p>
-          <button onClick={() => navigate("/home")} className="px-6 py-2 bg-accent text-primary rounded-full font-medium text-sm">
-            Back to Home
-          </button>
+          <button onClick={() => navigate("/")} className="px-6 py-2 bg-accent text-primary rounded-full font-medium text-sm">Back to Home</button>
         </div>
       </div>
     );
@@ -115,7 +103,6 @@ const AccountPage = () => {
 
   return (
     <div className="min-h-screen bg-primary relative overflow-hidden">
-      {/* Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-primary via-secondary/20 to-primary"></div>
         <div className="absolute top-[-15%] left-[-10%] w-[600px] h-[600px] rounded-full bg-accent/[0.06] blur-[120px] animate-pulse-slow"></div>
@@ -123,48 +110,24 @@ const AccountPage = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 pt-32 pb-20 max-w-3xl">
-        {/* Back */}
-        <button
-          onClick={() => navigate("/home")}
-          className="inline-flex items-center text-accent hover:text-amber-300 text-sm group mb-8"
-        >
-          <svg className="w-4 h-4 mr-1.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
+        <button onClick={() => navigate("/")} className="inline-flex items-center text-accent hover:text-amber-300 text-sm group mb-8">
+          <svg className="w-4 h-4 mr-1.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Back to Home
         </button>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="glass rounded-3xl p-8 sm:p-10"
-        >
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="glass rounded-3xl p-8 sm:p-10">
           <h1 className="font-display text-3xl text-text-primary mb-8">My Account</h1>
 
-          {/* Avatar */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10">
             <div className="relative flex-shrink-0">
               <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-accent/30 bg-secondary">
-                <img
-                  src={avatarUrl || defaultAvatar}
-                  alt={user.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = defaultAvatar; }}
-                />
+                <img src={avatarUrl || defaultAvatar} alt={user.name} className="w-full h-full object-cover" onError={(e) => { e.target.src = defaultAvatar; }} />
               </div>
-              <button
-                onClick={handleAvatarClick}
-                disabled={avatarUploading}
-                className="absolute bottom-0 right-0 p-2 bg-accent rounded-full hover:bg-amber-300 transition-all hover:scale-110 disabled:opacity-50"
-              >
+              <button onClick={handleAvatarClick} disabled={avatarUploading} className="absolute bottom-0 right-0 p-2 bg-accent rounded-full hover:bg-amber-300 transition-all hover:scale-110 disabled:opacity-50">
                 {avatarUploading ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-primary"></div>
                 ) : (
-                  <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                  <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 )}
               </button>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
@@ -175,39 +138,24 @@ const AccountPage = () => {
               <p className="text-text-secondary text-sm mb-1">{user.email}</p>
               <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium capitalize ${
                 user.role === 'admin' ? 'bg-red-500/20 text-red-400' : 'bg-accent/20 text-accent'
-              }`}>
-                {user.role === 'admin' ? '⚡ Admin' : '📖 Reader'}
-              </span>
-              {user.bio && (
-                <p className="text-text-secondary text-sm font-serif italic mt-3">"{user.bio}"</p>
-              )}
+              }`}>{user.role === 'admin' ? '⚡ Admin' : '📖 Reader'}</span>
+              {user.bio && <p className="text-text-secondary text-sm font-serif italic mt-3">"{user.bio}"</p>}
             </div>
 
-            <button
-              onClick={() => setShowEditModal(true)}
-              className="px-5 py-2.5 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-all"
-            >
-              Edit Profile
-            </button>
+            <button onClick={() => setShowEditModal(true)} className="px-5 py-2.5 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-all">Edit Profile</button>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-2 gap-4 mb-10">
             <div className="glass rounded-2xl p-5 text-center">
-              <div className="font-display text-3xl text-text-primary mb-1">
-                {user.stats?.posts || 0}
-              </div>
+              <div className="font-display text-3xl text-text-primary mb-1">{user.stats?.posts || 0}</div>
               <div className="text-text-secondary text-xs uppercase tracking-wider">Posts</div>
             </div>
             <div className="glass rounded-2xl p-5 text-center">
-              <div className="font-display text-3xl text-text-primary mb-1">
-                {user.stats?.comments || 0}
-              </div>
+              <div className="font-display text-3xl text-text-primary mb-1">{user.stats?.comments || 0}</div>
               <div className="text-text-secondary text-xs uppercase tracking-wider">Comments</div>
             </div>
           </div>
 
-          {/* Account Info */}
           <div className="space-y-4">
             <h3 className="font-display text-xl text-text-primary">Account Details</h3>
             <div className="space-y-3">
@@ -228,11 +176,7 @@ const AccountPage = () => {
       </div>
 
       {showEditModal && (
-        <EditProfileModal
-          user={user}
-          onClose={() => setShowEditModal(false)}
-          onSave={handleSaveProfile}
-        />
+        <EditProfileModal user={user} onClose={() => setShowEditModal(false)} onSave={handleSaveProfile} />
       )}
     </div>
   );

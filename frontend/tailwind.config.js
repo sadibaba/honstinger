@@ -7,17 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        'primary': '#0A0F0D', // Deep, dark teal
-        'secondary': '#1C2B27', // Lighter teal for cards
-        'accent': '#D4A15D', // Muted, elegant amber/gold
-        'text-primary': '#EAEAEA', // Off-white
-        'text-secondary': '#8A9B96', // Muted grey-green
-        'glass': 'rgba(28, 43, 39, 0.5)', // For glassmorphism
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--color-accent)',
+        'text-primary': 'var(--color-text-primary)',
+        'text-secondary': 'var(--color-text-secondary)',
+        glass: 'var(--glass)',
       },
       fontFamily: {
-        'display': ['"Bebas Neue"', 'sans-serif'],
-        'serif': ['"Cormorant Garamond"', 'serif'],
-        'sans': ['"Inter"', 'sans-serif'],
+        display: ['"Bebas Neue"', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'serif'],
+        sans: ['"Inter"', 'sans-serif'],
       },
       animation: {
         'gradient-shift': 'gradient-shift 8s ease infinite',
@@ -31,4 +31,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

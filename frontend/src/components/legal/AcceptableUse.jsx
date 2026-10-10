@@ -2,15 +2,8 @@ import React from "react";
 import LegalLayout from "./LegalLayout";
 
 const AcceptableUse = () => (
-  <LegalLayout
-    title="Acceptable Use Policy"
-    subtitle="Rules for a safe, respectful community."
-    lastUpdated="October 8, 2026"
-  >
-    <p>
-      This Acceptable Use Policy ("AUP") governs your use of <strong>Chronica</strong>.
-      Violations may result in account suspension or termination.
-    </p>
+  <LegalLayout title="Acceptable Use Policy" subtitle="Rules for a safe, respectful community." lastUpdated="October 8, 2026">
+    <p>This Acceptable Use Policy ("AUP") governs your use of <strong>Chronica</strong>. Violations may result in account suspension or termination.</p>
 
     <h2>1. Respectful Behavior</h2>
     <ul>
@@ -47,16 +40,10 @@ const AcceptableUse = () => (
     </ul>
 
     <h2>5. Reporting Violations</h2>
-    <p>
-      If you encounter content that violates this AUP, report it to{" "}
-      <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a> with details
-      and screenshots (if applicable).
-    </p>
+    <p>If you encounter content that violates this AUP, report it to <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a> with details and screenshots (if applicable).</p>
 
     <h2>6. Enforcement</h2>
-    <p>
-      We may take any of the following actions for violations:
-    </p>
+    <p>We may take any of the following actions for violations:</p>
     <ul>
       <li>Warning or content removal.</li>
       <li>Temporary suspension.</li>
@@ -68,10 +55,7 @@ const AcceptableUse = () => (
     <p>We may revise this policy. Continued use constitutes acceptance.</p>
 
     <h2>8. Contact</h2>
-    <p>
-      Email{" "}
-      <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.
-    </p>
+    <p>Email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
   </LegalLayout>
 );
 

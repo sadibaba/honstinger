@@ -2,15 +2,8 @@ import React from "react";
 import LegalLayout from "./LegalLayout";
 
 const Privacy = () => (
-  <LegalLayout
-    title="Privacy Policy"
-    subtitle="How we collect, use, and protect your information."
-    lastUpdated="October 8, 2026"
-  >
-    <p>
-      At <strong>Chronica</strong>, your privacy matters. This policy explains what data we
-      collect, why we collect it, and how we protect it.
-    </p>
+  <LegalLayout title="Privacy Policy" subtitle="How we collect, use, and protect your information." lastUpdated="October 8, 2026">
+    <p>At <strong>Chronica</strong>, your privacy matters. This policy explains what data we collect, why we collect it, and how we protect it.</p>
 
     <h2>1. Information We Collect</h2>
     <h3>a) Information you provide</h3>
@@ -56,10 +49,7 @@ const Privacy = () => (
     </ul>
 
     <h2>5. Data Retention</h2>
-    <p>
-      We retain your account data as long as your account is active. After deletion, we
-      may retain certain data for up to 90 days for backup, legal, or security purposes.
-    </p>
+    <p>We retain your account data as long as your account is active. After deletion, we may retain certain data for up to 90 days for backup, legal, or security purposes.</p>
 
     <h2>6. Your Rights</h2>
     <p>Depending on your location, you may have the right to:</p>
@@ -70,41 +60,22 @@ const Privacy = () => (
       <li>Withdraw consent at any time.</li>
       <li>Lodge a complaint with a supervisory authority.</li>
     </ul>
-    <p>
-      To exercise these rights, email{" "}
-      <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.
-    </p>
+    <p>To exercise these rights, email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
 
     <h2>7. Children's Privacy</h2>
-    <p>
-      Chronica is not intended for children under 13. We do not knowingly collect data
-      from children under 13. If you believe we have, contact us immediately.
-    </p>
+    <p>Chronica is not intended for children under 13. We do not knowingly collect data from children under 13. If you believe we have, contact us immediately.</p>
 
     <h2>8. Security</h2>
-    <p>
-      We use industry-standard security measures: HTTPS encryption, hashed passwords
-      (bcrypt), JWT authentication, rate limiting, input sanitization, and security
-      headers (Helmet). No system is 100% secure, but we take this seriously.
-    </p>
+    <p>We use industry-standard security measures: HTTPS encryption, hashed passwords (bcrypt), JWT authentication, rate limiting, input sanitization, and security headers (Helmet). No system is 100% secure, but we take this seriously.</p>
 
     <h2>9. International Transfers</h2>
-    <p>
-      Your data may be stored and processed in countries outside your own. We take
-      reasonable steps to ensure your data receives adequate protection.
-    </p>
+    <p>Your data may be stored and processed in countries outside your own. We take reasonable steps to ensure your data receives adequate protection.</p>
 
     <h2>10. Changes to This Policy</h2>
-    <p>
-      We may update this Privacy Policy. Material changes will be notified via email or
-      a prominent notice on the platform.
-    </p>
+    <p>We may update this Privacy Policy. Material changes will be notified via email or a prominent notice on the platform.</p>
 
     <h2>11. Contact</h2>
-    <p>
-      Questions? Email{" "}
-      <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.
-    </p>
+    <p>Questions? Email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
   </LegalLayout>
 );
 

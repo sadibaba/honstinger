@@ -2,21 +2,11 @@ import React from "react";
 import LegalLayout from "./LegalLayout";
 
 const Cookies = () => (
-  <LegalLayout
-    title="Cookie Policy"
-    subtitle="What cookies are and how we use them."
-    lastUpdated="October 8, 2026"
-  >
-    <p>
-      This Cookie Policy explains how <strong>Chronica</strong> uses cookies and similar
-      technologies to recognize you when you visit our website.
-    </p>
+  <LegalLayout title="Cookie Policy" subtitle="What cookies are and how we use them." lastUpdated="October 8, 2026">
+    <p>This Cookie Policy explains how <strong>Chronica</strong> uses cookies and similar technologies to recognize you when you visit our website.</p>
 
     <h2>1. What Are Cookies?</h2>
-    <p>
-      Cookies are small text files stored on your device by your browser. They help
-      websites remember your preferences and improve your experience.
-    </p>
+    <p>Cookies are small text files stored on your device by your browser. They help websites remember your preferences and improve your experience.</p>
 
     <h2>2. How We Use Cookies</h2>
     <ul>
@@ -35,10 +25,7 @@ const Cookies = () => (
     </ul>
 
     <h2>4. Managing Cookies</h2>
-    <p>
-      You can control or delete cookies through your browser settings. Note that
-      disabling essential cookies may break parts of Chronica (like staying logged in).
-    </p>
+    <p>You can control or delete cookies through your browser settings. Note that disabling essential cookies may break parts of Chronica (like staying logged in).</p>
     <ul>
       <li><strong>Chrome:</strong> Settings → Privacy → Cookies and other site data.</li>
       <li><strong>Firefox:</strong> Preferences → Privacy & Security → Cookies and Site Data.</li>
@@ -47,22 +34,13 @@ const Cookies = () => (
     </ul>
 
     <h2>5. Third-Party Cookies</h2>
-    <p>
-      Some third-party services (Google Analytics, hosting providers) may set their own
-      cookies. We do not control these cookies — please review their privacy policies.
-    </p>
+    <p>Some third-party services (Google Analytics, hosting providers) may set their own cookies. We do not control these cookies — please review their privacy policies.</p>
 
     <h2>6. Updates</h2>
-    <p>
-      We may update this Cookie Policy periodically. Any significant changes will be
-      posted on this page.
-    </p>
+    <p>We may update this Cookie Policy periodically. Any significant changes will be posted on this page.</p>
 
     <h2>7. Contact</h2>
-    <p>
-      For questions, email{" "}
-      <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.
-    </p>
+    <p>For questions, email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
   </LegalLayout>
 );
 
