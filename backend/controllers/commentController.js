@@ -1,12 +1,14 @@
-import Comment from '../models/commentModel.js';
+import { Comment } from '../models/index.js';
 
-// Add Comment
 export const addComment = async (req, res) => {
   try {
+    const { postId, content, authorName } = req.body;
+    if (!content?.trim()) return res.status(400).json({ message: 'Content required' });
+
     const comment = await Comment.create({
-      post: req.body.postId,
-      user: req.user._id,
-      content: req.body.content,
+      postId,
+      content: content.trim(),
+      authorName: authorName?.trim() || 'Anonymous',
     });
     res.status(201).json(comment);
   } catch (error) {
@@ -14,21 +16,25 @@ export const addComment = async (req, res) => {
   }
 };
 
-// Get Comments for a Post
 export const getComments = async (req, res) => {
-  const comments = await Comment.find({ post: req.params.postId }).populate('user', 'name');
-  res.json(comments);
+  try {
+    const comments = await Comment.findAll({
+      where: { postId: req.params.postId },
+      order: [['createdAt', 'DESC']],
+    });
+    res.json(comments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Delete Comment
 export const deleteComment = async (req, res) => {
-  const comment = await Comment.findById(req.params.id);
-  if (!comment) return res.status(404).json({ message: 'Comment not found' });
-
-  if (comment.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-    return res.status(403).json({ message: 'Not authorized' });
+  try {
+    const comment = await Comment.findByPk(req.params.id);
+    if (!comment) return res.status(404).json({ message: 'Not found' });
+    await comment.destroy();
+    res.json({ message: 'Deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  await comment.deleteOne();
-  res.json({ message: 'Comment removed' });
 };

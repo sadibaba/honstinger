@@ -1,14 +1,11 @@
 import express from 'express';
-import { protect } from '../middlewares/UserMiddleware.js';
 import { addComment, getComments, deleteComment } from '../controllers/commentController.js';
-import { commentLimiter } from '../middlewares/rateLimiter.js';
+import { adminOnly } from '../middlewares/adminMiddleware.js';
 
 const router = express.Router();
 
-router.post('/', protect, commentLimiter, addComment);
-
+router.post('/', addComment);       
 router.get('/:postId', getComments);
-
-router.delete('/:id', protect, deleteComment);
+router.delete('/:id', adminOnly, deleteComment); 
 
 export default router;
