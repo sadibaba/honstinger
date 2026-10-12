@@ -4,7 +4,7 @@ slug: apple-company-history
 date: 2026-10-12
 description: "Explore Apple's journey from a small computer venture to a global technology company known for the Mac, iPhone, services, and integrated design."
 category: Technology
-image: ../../images/creator.jpg
+image: ../../images/apple.jpg
 ---
 
 Apple's history is often told through a handful of memorable products, but the company's deeper story is about making technology feel personal. Across several decades, Apple has moved between near-failure and extraordinary growth, repeatedly asking how computers and connected devices could fit more naturally into everyday life. Its influence comes not only from hardware, but from the way software, services, retail, and design are brought together into a coherent experience.

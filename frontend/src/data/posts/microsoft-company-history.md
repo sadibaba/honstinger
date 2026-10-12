@@ -4,7 +4,7 @@ slug: microsoft-company-history
 date: 2026-10-12
 description: "Trace Microsoft's path from early personal-computing software to Windows, Office, Azure, developer tools, gaming, and a new era of AI."
 category: Technology
-image: ../../images/creator.jpg
+image: ../../images/micro.jpg
 ---
 
 Microsoft's story follows the expansion of computing from a specialist activity into a tool used at work, at home, and across the internet. The company began by writing software for early microcomputers, then built a business around operating systems and productivity applications. In more recent decades, it has shifted from packaged programs toward cloud services, subscriptions, developer platforms, gaming, and artificial intelligence. Those changes have kept Microsoft central to technology even as the industry around it has been repeatedly transformed.
