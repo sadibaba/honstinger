@@ -2,60 +2,25 @@ import React from "react";
 import LegalLayout from "./LegalLayout";
 
 const AcceptableUse = () => (
-  <LegalLayout title="Acceptable Use Policy" subtitle="Rules for a safe, respectful community." lastUpdated="October 8, 2026">
-    <p>This Acceptable Use Policy ("AUP") governs your use of <strong>Chronica</strong>. Violations may result in account suspension or termination.</p>
+  <LegalLayout title="Acceptable Use Policy" subtitle="Rules for responsible use of Chronica." lastUpdated="October 12, 2026">
+    <p>This policy applies when you access the Chronica website. Chronica is a static publication and does not provide reader accounts, comments, or user-uploaded content.</p>
 
-    <h2>1. Respectful Behavior</h2>
+    <h2>1. Lawful use</h2>
+    <p>You may not use the website to violate applicable law, infringe another person's rights, or distribute malware or other harmful code.</p>
+
+    <h2>2. Protecting the service</h2>
     <ul>
-      <li>Be civil and respectful in comments.</li>
-      <li>Do not harass, bully, threaten, or defame others.</li>
-      <li>Do not post hate speech based on race, religion, gender, or identity.</li>
+      <li>Do not attempt unauthorized access to the site, its hosting, or third-party services.</li>
+      <li>Do not disrupt, overload, or interfere with the website or its availability.</li>
+      <li>Do not misrepresent your identity when contacting the editorial team.</li>
+      <li>Do not reproduce or republish protected content without permission.</li>
     </ul>
 
-    <h2>2. Prohibited Content</h2>
-    <p>You may not post or share:</p>
-    <ul>
-      <li>Spam, advertisements, or promotional content.</li>
-      <li>Sexually explicit, obscene, or violent material.</li>
-      <li>Content that infringes copyrights, trademarks, or privacy rights.</li>
-      <li>False, misleading, or defamatory information.</li>
-      <li>Malware, phishing links, or harmful code.</li>
-    </ul>
+    <h2>3. Reporting a concern</h2>
+    <p>To report a website issue or content concern, contact <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a> and include the relevant page URL and details.</p>
 
-    <h2>3. Platform Integrity</h2>
-    <p>You may not:</p>
-    <ul>
-      <li>Attempt to bypass rate limits, authentication, or security controls.</li>
-      <li>Use bots, scrapers, or automated scripts to access content.</li>
-      <li>Reverse engineer, decompile, or tamper with the platform.</li>
-      <li>Launch denial-of-service attacks or overload our infrastructure.</li>
-    </ul>
-
-    <h2>4. Account Responsibilities</h2>
-    <ul>
-      <li>One account per person.</li>
-      <li>Do not share login credentials.</li>
-      <li>Do not impersonate Chronica staff, editors, or other users.</li>
-      <li>Keep your email and password secure and up to date.</li>
-    </ul>
-
-    <h2>5. Reporting Violations</h2>
-    <p>If you encounter content that violates this AUP, report it to <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a> with details and screenshots (if applicable).</p>
-
-    <h2>6. Enforcement</h2>
-    <p>We may take any of the following actions for violations:</p>
-    <ul>
-      <li>Warning or content removal.</li>
-      <li>Temporary suspension.</li>
-      <li>Permanent account termination.</li>
-      <li>Reporting to law enforcement (if illegal activity).</li>
-    </ul>
-
-    <h2>7. Updates</h2>
-    <p>We may revise this policy. Continued use constitutes acceptance.</p>
-
-    <h2>8. Contact</h2>
-    <p>Email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
+    <h2>4. Updates</h2>
+    <p>This policy may be updated if the website's features change. The revision date above indicates the latest update.</p>
   </LegalLayout>
 );
 

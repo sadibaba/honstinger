@@ -1,37 +1,43 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { navigate } from 'vike/client/router';
-import { getPosts, getImageUrl } from '../api/api';
+import React, { useMemo, useState, useRef, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import BlogCard from './BlogCard';
-import CreateBlogModal from './CreateBlogModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AllPosts = ({ initialPosts = [] }) => {
-  const [blogs, setBlogs] = useState(initialPosts);
-  const [filteredBlogs, setFilteredBlogs] = useState(initialPosts);
-  const [loading, setLoading] = useState(initialPosts.length === 0);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [categories, setCategories] = useState([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const containerRef = useRef(null);
   const gridRef = useRef(null);
 
-  useEffect(() => {
-    setIsAdmin(localStorage.getItem("isAdmin") === "true");
-    if (initialPosts.length === 0) fetchBlogs();
-    else buildCategories(initialPosts.map(processBlog));
-  }, []);
+  const categories = useMemo(() => [
+    { name: 'All', value: 'all', count: initialPosts.length },
+    ...[...new Set(initialPosts.map((post) => post.category))]
+      .sort()
+      .map((category) => ({
+        name: category,
+        value: category.toLowerCase(),
+        count: initialPosts.filter((post) => post.category === category).length,
+      })),
+  ], [initialPosts]);
 
-  useEffect(() => { filterBlogs(); }, [blogs, searchTerm, selectedCategory]);
+  const filteredBlogs = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+    return initialPosts.filter((post) => {
+      const matchesCategory = selectedCategory === 'all'
+        || post.category.toLowerCase() === selectedCategory;
+      const matchesSearch = !query
+        || [post.title, post.description, post.content, post.category]
+          .some((value) => value.toLowerCase().includes(query));
+      return matchesCategory && matchesSearch;
+    });
+  }, [initialPosts, searchTerm, selectedCategory]);
 
   useLayoutEffect(() => {
-    if (loading || filteredBlogs.length === 0) return;
+    if (filteredBlogs.length === 0) return;
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray('.post-card-item');
       cards.forEach((card, i) => {
@@ -39,76 +45,14 @@ const AllPosts = ({ initialPosts = [] }) => {
       });
     }, gridRef);
     return () => ctx.revert();
-  }, [loading, filteredBlogs]);
+  }, [filteredBlogs]);
 
   useLayoutEffect(() => {
-    if (loading) return;
     const ctx = gsap.context(() => {
       gsap.to('.posts-hero', { scrollTrigger: { trigger: '.posts-hero', start: 'top top', end: 'bottom top', scrub: 1 }, y: -80, opacity: 0.3, scale: 0.95 });
     }, containerRef);
     return () => ctx.revert();
-  }, [loading]);
-
-  const fetchBlogs = async () => {
-    try {
-      setLoading(true);
-      const response = await getPosts(true);
-      const postsData = Array.isArray(response) ? response : response?.data || response || [];
-      const processed = postsData.map(processBlog);
-      setBlogs(processed);
-      buildCategories(processed);
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const processBlog = (blog) => ({
-    id: blog._id || blog.id,
-    _id: blog._id || blog.id,
-    title: blog.title || 'Untitled Post',
-    content: blog.content || '',
-    excerpt: blog.excerpt || (blog.content ? blog.content.substring(0, 150) + '...' : 'No description available'),
-    authorName: blog.authorName || blog.author?.name || blog.author || 'Anonymous',
-    authorId: blog.authorId || blog.author?._id,
-    authorAvatar: blog.authorAvatar || blog.author?.avatar,
-    author: blog.author,
-    date: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Unknown date',
-    category: blog.category || 'Uncategorized',
-    image: getImageUrl(blog.imageUrl || blog.image),
-    readTime: blog.readTime || `${Math.ceil((blog.content?.split(' ').length || 0) / 200) || 3} min read`,
-    likes: blog.likes?.length || 0,
-    likesArray: blog.likes || [],
-    comments: blog.comments?.length || 0,
-    views: blog.views || 0,
-    createdAt: blog.createdAt,
-  });
-
-  const buildCategories = (posts) => {
-    const counts = {};
-    posts.forEach((b) => { if (b.category) counts[b.category] = (counts[b.category] || 0) + 1; });
-    const unique = Object.keys(counts);
-    setCategories([{ name: 'All', value: 'all', count: posts.length }, ...unique.map((c) => ({ name: c, value: c.toLowerCase(), count: counts[c] }))]);
-  };
-
-  const filterBlogs = () => {
-    let results = blogs;
-    if (selectedCategory !== 'all') results = results.filter((b) => b.category?.toLowerCase() === selectedCategory.toLowerCase());
-    if (searchTerm.trim()) {
-      const q = searchTerm.toLowerCase();
-      results = results.filter((b) => b.title?.toLowerCase().includes(q) || b.content?.toLowerCase().includes(q) || b.authorName?.toLowerCase().includes(q) || b.category?.toLowerCase().includes(q));
-    }
-    setFilteredBlogs(results);
-  };
-
-  const handleCreateSuccess = async (newPost) => {
-    if (newPost) {
-      const processed = processBlog(newPost);
-      setBlogs((prev) => [processed, ...prev]);
-      buildCategories([processed, ...blogs]);
-    } else { await fetchBlogs(); }
-  };
+  }, []);
 
   return (
     <div ref={containerRef} className="min-h-screen bg-primary pt-32 pb-20 relative overflow-hidden">
@@ -128,12 +72,6 @@ const AllPosts = ({ initialPosts = [] }) => {
             <p className="text-accent text-xs uppercase tracking-[0.3em] mb-4 font-medium">The Collection</p>
             <h1 className="font-display text-6xl sm:text-7xl md:text-8xl text-text-primary mb-6 leading-none">ALL STORIES</h1>
             <p className="text-text-secondary text-lg max-w-2xl mx-auto font-serif mb-8">Browse through our entire collection of narratives, ideas, and perspectives.</p>
-            {isAdmin && (
-              <button onClick={() => setShowCreateModal(true)} className="group inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent/30">
-                <svg className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-                Write a Story
-              </button>
-            )}
           </motion.div>
         </div>
 
@@ -166,21 +104,10 @@ const AllPosts = ({ initialPosts = [] }) => {
           )}
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-secondary/40 backdrop-blur-sm rounded-2xl p-6 animate-pulse border border-secondary/30">
-                <div className="h-48 bg-secondary rounded-xl mb-4" />
-                <div className="h-3 bg-secondary rounded w-1/4 mb-3" />
-                <div className="h-5 bg-secondary rounded mb-2" />
-                <div className="h-3 bg-secondary rounded mb-4" />
-              </div>
-            ))}
-          </div>
-        ) : filteredBlogs.length > 0 ? (
+        {filteredBlogs.length > 0 ? (
           <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 [perspective:1500px]">
             {filteredBlogs.map((blog) => (
-              <div key={blog.id} className="post-card-item will-change-transform" style={{ transformStyle: 'preserve-3d' }}>
+              <div key={blog.slug} className="post-card-item will-change-transform" style={{ transformStyle: 'preserve-3d' }}>
                 <BlogCard blog={blog} />
               </div>
             ))}
@@ -191,27 +118,14 @@ const AllPosts = ({ initialPosts = [] }) => {
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
             <h3 className="text-xl font-semibold text-text-primary mb-2">No stories found</h3>
-            <p className="text-text-secondary mb-6 text-sm">{isAdmin ? 'Be the first to publish a story.' : 'Check back soon — new stories are on the way.'}</p>
-            {isAdmin ? (
-              <button onClick={() => setShowCreateModal(true)} className="px-6 py-2.5 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-colors">Write First Story</button>
-            ) : (
-              <button onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }} className="px-6 py-2.5 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-colors">Clear Filters</button>
-            )}
+            <p className="text-text-secondary mb-6 text-sm">Check back soon — new stories are on the way.</p>
+            <button onClick={() => { setSearchTerm(''); setSelectedCategory('all'); }} className="px-6 py-2.5 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-colors">Clear Filters</button>
           </div>
         )}
 
         <div className="h-32"></div>
       </div>
 
-      {isAdmin && (
-        <button onClick={() => setShowCreateModal(true)} className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent rounded-full shadow-lg shadow-accent/30 flex items-center justify-center hover:bg-amber-300 transition-all duration-300 hover:scale-110" aria-label="Write blog">
-          <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-        </button>
-      )}
-
-      {showCreateModal && (
-        <CreateBlogModal onClose={() => setShowCreateModal(false)} onSuccess={handleCreateSuccess} />
-      )}
     </div>
   );
 };

@@ -2,70 +2,32 @@ import React from "react";
 import LegalLayout from "./LegalLayout";
 
 const Terms = () => (
-  <LegalLayout title="Terms & Conditions" subtitle="The rules for using Chronica." lastUpdated="October 8, 2026">
-    <p>Welcome to <strong>Chronica</strong> ("we," "our," "us"). By accessing or using our website, you agree to be bound by these Terms & Conditions. If you do not agree, please do not use the platform.</p>
+  <LegalLayout title="Terms of Use" subtitle="Terms for reading and using Chronica." lastUpdated="October 12, 2026">
+    <p>By accessing Chronica, you agree to these terms. If you do not agree, please do not use the website.</p>
 
-    <h2>1. About Chronica</h2>
-    <p>Chronica is a digital publication dedicated to publishing biographies and stories of notable individuals. Content is created, curated, and published exclusively by our editorial team. Users may read, like, and comment on published stories.</p>
+    <h2>1. About the website</h2>
+    <p>Chronica is a static editorial publication. It provides articles and related information for general reading. It does not provide reader accounts, user profiles, comments, or paid features in this version.</p>
 
-    <h2>2. Eligibility</h2>
-    <ul>
-      <li>You must be at least 13 years old to use Chronica.</li>
-      <li>If you are under 18, you may only use the platform with parental consent.</li>
-      <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
-    </ul>
+    <h2>2. Acceptable use</h2>
+    <p>You may browse the website for lawful personal and informational purposes. You must not interfere with the site, attempt unauthorized access to its hosting or services, or use its content in a way that violates applicable law or another party's rights.</p>
 
-    <h2>3. User Accounts</h2>
-    <p>To like or comment on stories, you must create an account. You agree to:</p>
-    <ul>
-      <li>Provide accurate, current, and complete information during registration.</li>
-      <li>Not share your password or allow others to access your account.</li>
-      <li>Notify us immediately of any unauthorized use of your account.</li>
-      <li>Not impersonate any person or entity.</li>
-    </ul>
+    <h2>3. Content and intellectual property</h2>
+    <p>Unless otherwise stated, Chronica articles, site design, and original materials are owned by Chronica or used with permission. Company names, product names, and other third-party marks belong to their respective owners. You may link to an article, but you may not republish substantial portions or create derivative works without permission.</p>
 
-    <h2>4. Acceptable Use</h2>
-    <p>You agree NOT to:</p>
-    <ul>
-      <li>Post or transmit any unlawful, harmful, threatening, abusive, defamatory, or hateful content.</li>
-      <li>Attempt to gain unauthorized access to our systems, servers, or networks.</li>
-      <li>Use bots, scrapers, or automated tools to access or copy content.</li>
-      <li>Upload viruses, malware, or any code designed to disrupt the platform.</li>
-      <li>Infringe on intellectual property rights of Chronica or third parties.</li>
-      <li>Use Chronica for any commercial purpose without our written consent.</li>
-    </ul>
+    <h2>4. External links and services</h2>
+    <p>The website may link to third-party sites. The Contact form is provided through Web3Forms. These services have their own terms and privacy practices, and Chronica is not responsible for their availability or content.</p>
 
-    <h2>5. Content Ownership</h2>
-    <p>All published stories, images, logos, designs, and other content on Chronica are the property of Chronica or their respective owners and are protected by copyright law. You may not reproduce, distribute, or create derivative works without permission.</p>
-    <p>Comments you post remain your property. However, by posting a comment, you grant Chronica a worldwide, non-exclusive, royalty-free license to display, distribute, and moderate your comment across the platform.</p>
+    <h2>5. Accuracy and availability</h2>
+    <p>Articles are provided for general informational purposes. We try to keep them accurate, but do not guarantee that every detail is complete or current. The website is provided on an "as is" and "as available" basis to the extent permitted by law.</p>
 
-    <h2>6. Comments & Moderation</h2>
-    <ul>
-      <li>Comments are moderated at our sole discretion.</li>
-      <li>We reserve the right to remove any comment that violates these Terms.</li>
-      <li>Repeated violations may result in account suspension or termination.</li>
-    </ul>
+    <h2>6. Limitation of liability</h2>
+    <p>To the maximum extent permitted by law, Chronica and its operators are not liable for indirect or consequential loss arising from the use of the website or reliance on its content.</p>
 
-    <h2>7. Third-Party Links</h2>
-    <p>Chronica may contain links to third-party websites. We are not responsible for the content, privacy practices, or availability of those websites. You access them at your own risk.</p>
+    <h2>7. Changes and governing law</h2>
+    <p>These terms may change when the website changes. The revision date above indicates the latest update. These terms are governed by the laws of Pakistan, subject to any mandatory legal protections that apply where you live.</p>
 
-    <h2>8. Disclaimer</h2>
-    <p>Chronica content is provided "as is" for informational purposes only. While we strive for accuracy, we make no warranties regarding the completeness, accuracy, or reliability of any content. See our full <a href="/disclaimer">Disclaimer</a>.</p>
-
-    <h2>9. Limitation of Liability</h2>
-    <p>To the maximum extent permitted by law, Chronica and its operators shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform.</p>
-
-    <h2>10. Termination</h2>
-    <p>We may suspend or terminate your account at any time, without notice, if we believe you have violated these Terms or engaged in harmful behavior. You may delete your account anytime from your account settings.</p>
-
-    <h2>11. Changes to Terms</h2>
-    <p>We may update these Terms from time to time. Continued use of Chronica after changes constitutes your acceptance of the new Terms.</p>
-
-    <h2>12. Governing Law</h2>
-    <p>These Terms are governed by the laws of <strong>Pakistan</strong>. Any disputes will be subject to the exclusive jurisdiction of the courts of Pakistan.</p>
-
-    <h2>13. Contact</h2>
-    <p>For questions regarding these Terms, contact us at <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
+    <h2>8. Contact</h2>
+    <p>For questions about these terms, email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
   </LegalLayout>
 );
 

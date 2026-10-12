@@ -17,19 +17,16 @@ const Disclaimer = () => (
     <h2>4. External Links</h2>
     <p>Chronica may contain links to external websites. We do not control and are not responsible for the content, accuracy, or availability of those sites. Including a link does not imply endorsement.</p>
 
-    <h2>5. User-Generated Content</h2>
-    <p>Comments and user-submitted content reflect the views of their authors. We are not liable for any user-generated content. See our <a href="/terms">Terms</a> for rules.</p>
-
-    <h2>6. Limitation of Liability</h2>
+    <h2>5. Limitation of Liability</h2>
     <p>In no event shall Chronica, its owners, or contributors be liable for any loss or damage (direct, indirect, incidental, consequential) arising from the use of this site or reliance on its content.</p>
 
-    <h2>7. Copyright Notice</h2>
+    <h2>6. Copyright Notice</h2>
     <p>All trademarks, logos, and content are the property of their respective owners. Unauthorized use is prohibited. If you believe your rights are infringed, see our <a href="/dmca">DMCA Policy</a>.</p>
 
-    <h2>8. Changes</h2>
+    <h2>7. Changes</h2>
     <p>We may update this Disclaimer anytime. Continued use of Chronica constitutes acceptance of the updated version.</p>
 
-    <h2>9. Contact</h2>
+    <h2>8. Contact</h2>
     <p>Questions? Email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
   </LegalLayout>
 );

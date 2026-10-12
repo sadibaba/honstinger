@@ -1,5 +1,4 @@
 import React from "react";
-import { navigate } from "vike/client/router";
 import { motion } from "framer-motion";
 
 const Icon = ({ name, className = "w-6 h-6" }) => {
@@ -18,16 +17,16 @@ const Icon = ({ name, className = "w-6 h-6" }) => {
 };
 
 const FEATURES = [
-  { iconName: "book", title: "Curated Stories", desc: "Hand-picked biographies of remarkable people from every field." },
-  { iconName: "heart", title: "Likes & Reactions", desc: "Show appreciation for stories that resonate with you." },
-  { iconName: "comment", title: "Comments", desc: "Join the conversation. Share your thoughts with the community." },
+  { iconName: "book", title: "Original Stories", desc: "Carefully prepared articles about people, companies, and ideas." },
+  { iconName: "search", title: "Easy Discovery", desc: "Search articles and filter the collection by category." },
+  { iconName: "sparkle", title: "Editorial Focus", desc: "Each story is written to provide context, not just headlines." },
   { iconName: "theme", title: "Light & Dark Mode", desc: "Read comfortably — day or night — with a single toggle." },
-  { iconName: "bolt", title: "Fast & Smooth", desc: "Optimized for speed with lazy loading and cached content." },
-  { iconName: "shield", title: "Secure Account", desc: "Your data is protected with JWT, rate limiting, and sanitization." },
+  { iconName: "bolt", title: "Fast Static Pages", desc: "Pages are generated at build time and served from a global CDN." },
+  { iconName: "shield", title: "No Reader Accounts", desc: "Browse without signing in or creating a user profile." },
 ];
 
-const FUNCTIONAL_REQS = ["Guests can browse stories freely", "Readers can register, login, like, and comment", "Only admin can publish, edit, or delete stories", "Readers can personalize their account (avatar, bio, password)", "Full-text search and category filtering", "Persistent session with JWT tokens"];
-const NON_FUNCTIONAL_REQS = ["Page load under 2 seconds", "Responsive on all devices", "Secure with rate limiting & sanitization", "Accessible (keyboard navigable)", "Consistent design system across pages", "Light and dark theme support"];
+const FUNCTIONAL_REQS = ["Read each story at its own permanent URL", "Browse and search the article collection", "Filter stories by category", "Contact the editorial team by email or web form", "Review the site's legal and privacy information", "Choose a light or dark reading theme"];
+const NON_FUNCTIONAL_REQS = ["Pages are prerendered as HTML", "Responsive layouts for desktop and mobile", "No user accounts, database, or application backend", "Accessible controls and semantic article headings", "Consistent visual design across all pages", "Local posts are managed as Markdown files"];
 
 const Details = () => (
   <div className="min-h-screen bg-primary relative overflow-hidden">
@@ -38,15 +37,15 @@ const Details = () => (
     </div>
 
     <div className="relative z-10 container mx-auto px-4 pt-32 pb-20">
-      <button onClick={() => navigate("/")} className="inline-flex items-center text-accent hover:text-amber-300 text-sm group mb-8">
+      <a href="/" className="inline-flex items-center text-accent hover:text-amber-300 text-sm group mb-8">
         <svg className="w-4 h-4 mr-1.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
         Back to Home
-      </button>
+      </a>
 
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-20">
         <p className="text-accent text-xs uppercase tracking-[0.3em] mb-4 font-medium">About the Platform</p>
         <h1 className="font-display text-6xl sm:text-7xl md:text-8xl text-text-primary mb-6 leading-none">CHRONICA</h1>
-        <p className="text-text-secondary text-lg max-w-3xl mx-auto font-serif leading-relaxed">Chronica is a digital sanctuary dedicated to the stories of remarkable people — visionaries, leaders, artists, and thinkers who shaped our world. We believe every life is a story worth preserving, and every reader deserves a place to discover them.</p>
+        <p className="text-text-secondary text-lg max-w-3xl mx-auto font-serif leading-relaxed">Chronica is an independent publication about remarkable people, influential companies, and ideas that shape our world. We believe useful stories deserve careful research, clear writing, and a calm place to be discovered.</p>
       </motion.div>
 
       <div className="max-w-4xl mx-auto mb-20">
@@ -55,8 +54,8 @@ const Details = () => (
             <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 border border-accent/30 text-accent"><Icon name="sparkle" className="w-5 h-5" /></span>
             <h2 className="font-display text-3xl text-text-primary">Why Chronica Exists</h2>
           </div>
-          <p className="text-text-secondary font-serif leading-relaxed mb-4">In a world of fleeting headlines and shallow content, we wanted to build something that honors depth. Chronica is not a news feed — it's a library. Each story is carefully written, edited, and presented with the reverence it deserves.</p>
-          <p className="text-text-secondary font-serif leading-relaxed">Whether you're a student, a curious mind, or someone who simply loves biographies, Chronica is your quiet corner for stories that stay with you long after you close the tab.</p>
+          <p className="text-text-secondary font-serif leading-relaxed mb-4">In a world of fleeting headlines, Chronica makes room for context. It is a small library of original articles, each written to explain the people, decisions, and innovations behind a story.</p>
+          <p className="text-text-secondary font-serif leading-relaxed">Readers can explore the collection freely, find related subjects by category, and return to articles through stable, shareable links.</p>
         </motion.div>
       </div>
 
@@ -77,7 +76,7 @@ const Details = () => (
         <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="glass rounded-3xl p-8">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 border border-accent/30 text-accent"><Icon name="user" className="w-5 h-5" /></span>
-            <h3 className="font-display text-2xl text-text-primary">Functional Requirements</h3>
+            <h3 className="font-display text-2xl text-text-primary">What You Can Do</h3>
           </div>
           <ul className="space-y-3">
             {FUNCTIONAL_REQS.map((r, i) => (<li key={i} className="flex items-start gap-3 text-text-secondary text-sm font-serif"><span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0"></span>{r}</li>))}
@@ -87,7 +86,7 @@ const Details = () => (
         <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="glass rounded-3xl p-8">
           <div className="flex items-center gap-3 mb-6">
             <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 border border-accent/30 text-accent"><Icon name="bolt" className="w-5 h-5" /></span>
-            <h3 className="font-display text-2xl text-text-primary">Non-Functional Requirements</h3>
+            <h3 className="font-display text-2xl text-text-primary">How the Site Works</h3>
           </div>
           <ul className="space-y-3">
             {NON_FUNCTIONAL_REQS.map((r, i) => (<li key={i} className="flex items-start gap-3 text-text-secondary text-sm font-serif"><span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0"></span>{r}</li>))}
@@ -96,10 +95,10 @@ const Details = () => (
       </div>
 
       <div className="text-center">
-        <button onClick={() => navigate("/")} className="inline-flex items-center gap-2 px-8 py-3 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-all hover:scale-105">
+        <a href="/" className="inline-flex items-center gap-2 px-8 py-3 bg-accent text-primary rounded-full font-bold text-sm hover:bg-amber-300 transition-all hover:scale-105">
           Start Exploring
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-        </button>
+        </a>
       </div>
     </div>
   </div>

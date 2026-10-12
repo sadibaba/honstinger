@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { navigate } from "vike/client/router";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import BlogCard from "./BlogCard";
-import CreateBlogModal from "./CreateBlogModal";
-import { getPosts, getImageUrl } from "../api/api";
 
 const HeroSection = () => {
   const ref = useRef(null);
@@ -26,7 +23,7 @@ const HeroSection = () => {
             Explore Stories
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
-          <a href="/details" className="inline-flex items-center px-6 py-3 bg-secondary/60 backdrop-blur-sm text-text-primary rounded-full font-medium text-sm hover:bg-secondary transition-all border border-secondary/50">Learn More</a>
+          <a href="/about" className="inline-flex items-center px-6 py-3 bg-secondary/60 backdrop-blur-sm text-text-primary rounded-full font-medium text-sm hover:bg-secondary transition-all border border-secondary/50">Learn More</a>
         </motion.div>
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
@@ -40,7 +37,7 @@ const AboutSection = () => (
   <section id="about" className="section bg-secondary">
     <div className="max-w-4xl mx-auto">
       <h2 className="section-title text-text-primary">WHY CHRONICA?</h2>
-      <p className="section-subtitle text-text-secondary">In a world of fleeting content, Chronica is a sanctuary for stories that matter. We are a community of readers, thinkers, and storytellers dedicated to preserving the legacies of remarkable people. Here, every post is a chapter in history, and every reader is a witness.</p>
+      <p className="section-subtitle text-text-secondary">In a world of fleeting content, Chronica is a sanctuary for stories that matter. Our editorial team researches and publishes thoughtful accounts of remarkable people, companies, and ideas. Each story is an invitation to explore the people and decisions that shaped our world.</p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
         {[
           { title: "Curated Biographies", desc: "Hand-picked stories from a diverse range of remarkable lives." },
@@ -85,7 +82,7 @@ const FeaturedSection = ({ blogs, loading }) => (
       ) : blogs.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.slice(0, 6).map((blog, i) => (
-            <motion.div key={blog.id} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.1 }}>
+            <motion.div key={blog.slug} initial={{ opacity: 1, y: 0 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.1 }}>
               <BlogCard blog={blog} />
             </motion.div>
           ))}
@@ -109,7 +106,7 @@ const ContactSection = () => (
       <h2 className="section-title text-text-primary">JOIN THE CONVERSATION</h2>
       <p className="section-subtitle text-text-secondary mb-12">Have a story to tell? A question to ask? We'd love to hear from you.</p>
       <div className="flex flex-wrap gap-4 justify-center">
-        
+        <a href="/contact" className="inline-block px-10 py-4 bg-accent text-primary font-medium rounded-full hover:bg-amber-300 transition-all text-lg tracking-wider">Contact Us</a>
         <a href="/posts" className="inline-block px-10 py-4 bg-secondary/60 backdrop-blur-sm text-text-primary font-medium rounded-full hover:bg-secondary transition-all border border-secondary/50 text-lg tracking-wider">Browse Stories</a>
       </div>
     </div>
@@ -117,68 +114,12 @@ const ContactSection = () => (
 );
 
 const Home = ({ initialBlogs = [] }) => {
-  const [blogs, setBlogs] = useState(initialBlogs);
-  const [loading, setLoading] = useState(initialBlogs.length === 0);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    setIsAdmin(localStorage.getItem("isAdmin") === "true");
-    if (initialBlogs.length === 0) fetchBlogs();
-  }, []);
-
-  const fetchBlogs = async () => {
-    try {
-      setLoading(true);
-      const response = await getPosts();
-      const postsData = Array.isArray(response) ? response : response?.data || response || [];
-      setBlogs(postsData.map(processBlog));
-    } catch (error) {
-      console.error("Error fetching blogs:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const processBlog = (blog) => ({
-    id: blog._id || blog.id,
-    _id: blog._id || blog.id,
-    title: blog.title || "Untitled Post",
-    content: blog.content || "",
-    excerpt: blog.excerpt || (blog.content ? blog.content.substring(0, 150) + "..." : "No description available"),
-    authorName: blog.authorName || blog.author?.name || blog.author || "Anonymous",
-    authorId: blog.authorId || blog.author?._id,
-    author: blog.author,
-    date: blog.createdAt ? new Date(blog.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "Unknown date",
-    category: blog.category || "Uncategorized",
-    image: getImageUrl(blog.imageUrl || blog.image),
-    readTime: blog.readTime || `${Math.ceil((blog.content?.split(" ").length || 0) / 200) || 3} min read`,
-    likes: blog.likes?.length || 0,
-    likesArray: blog.likes || [],
-    comments: blog.comments?.length || 0,
-    views: blog.views || 0,
-    createdAt: blog.createdAt,
-  });
-
-  const handleCreateSuccess = async (newPost) => {
-    if (newPost) setBlogs((prev) => [processBlog(newPost), ...prev]);
-    else await fetchBlogs();
-  };
-
   return (
     <div className="bg-primary">
-      {isAdmin && (
-        <button onClick={() => setShowCreateModal(true)} className="fixed bottom-8 right-8 z-40 w-14 h-14 bg-accent rounded-full shadow-lg flex items-center justify-center hover:bg-amber-300 transition-all duration-300 hover:scale-110" aria-label="Write blog">
-          <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-        </button>
-      )}
       <HeroSection />
       <AboutSection />
-      <FeaturedSection blogs={blogs} loading={loading} />
+      <FeaturedSection blogs={initialBlogs} loading={false} />
       <ContactSection />
-      {showCreateModal && (
-        <CreateBlogModal onClose={() => setShowCreateModal(false)} onSuccess={handleCreateSuccess} />
-      )}
     </div>
   );
 };

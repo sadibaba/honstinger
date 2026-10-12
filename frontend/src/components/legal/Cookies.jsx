@@ -2,45 +2,27 @@ import React from "react";
 import LegalLayout from "./LegalLayout";
 
 const Cookies = () => (
-  <LegalLayout title="Cookie Policy" subtitle="What cookies are and how we use them." lastUpdated="October 8, 2026">
-    <p>This Cookie Policy explains how <strong>Chronica</strong> uses cookies and similar technologies to recognize you when you visit our website.</p>
+  <LegalLayout title="Cookie and Storage Policy" subtitle="Browser storage used by Chronica." lastUpdated="October 12, 2026">
+    <p>Chronica's current static website does not set login, analytics, or advertising cookies. It uses browser local storage for a small number of reader preferences.</p>
 
-    <h2>1. What Are Cookies?</h2>
-    <p>Cookies are small text files stored on your device by your browser. They help websites remember your preferences and improve your experience.</p>
-
-    <h2>2. How We Use Cookies</h2>
+    <h2>1. Preferences stored in your browser</h2>
     <ul>
-      <li><strong>Essential cookies</strong> — required for login, security, and core features.</li>
-      <li><strong>Preference cookies</strong> — remember your theme (light/dark), language, and settings.</li>
-      <li><strong>Analytics cookies</strong> — help us understand how visitors use Chronica (e.g., page views, popular stories).</li>
-      <li><strong>Performance cookies</strong> — improve load times and platform responsiveness.</li>
+      <li><strong>theme</strong> — remembers your light or dark theme preference.</li>
+      <li><strong>cookieConsent</strong> — remembers whether you accepted or declined the notice shown on the site.</li>
     </ul>
+    <p>These values are stored by your browser and are not sent to a Chronica application server.</p>
 
-    <h2>3. Cookies We Use</h2>
-    <ul>
-      <li><strong>authToken</strong> — JWT token stored in localStorage (not a cookie, but similar) to keep you logged in.</li>
-      <li><strong>theme</strong> — remembers whether you prefer light or dark mode.</li>
-      <li><strong>hasSeenTutorial</strong> — remembers if you have completed the onboarding tour.</li>
-      <li><strong>_ga / _gid</strong> — Google Analytics (if enabled) to measure traffic.</li>
-    </ul>
+    <h2>2. Hosting and third parties</h2>
+    <p>The hosting provider may use technical mechanisms necessary to deliver and protect the website. The Contact form sends information to Web3Forms when submitted. Consult those providers' privacy notices for details about their own technologies and data retention.</p>
 
-    <h2>4. Managing Cookies</h2>
-    <p>You can control or delete cookies through your browser settings. Note that disabling essential cookies may break parts of Chronica (like staying logged in).</p>
-    <ul>
-      <li><strong>Chrome:</strong> Settings → Privacy → Cookies and other site data.</li>
-      <li><strong>Firefox:</strong> Preferences → Privacy & Security → Cookies and Site Data.</li>
-      <li><strong>Safari:</strong> Preferences → Privacy → Manage Website Data.</li>
-      <li><strong>Edge:</strong> Settings → Cookies and site permissions.</li>
-    </ul>
+    <h2>3. Future advertising or analytics</h2>
+    <p>No advertising or analytics scripts are configured in this version. If they are added, this policy and the site's consent choices will be reviewed and updated to explain any related cookies or storage.</p>
 
-    <h2>5. Third-Party Cookies</h2>
-    <p>Some third-party services (Google Analytics, hosting providers) may set their own cookies. We do not control these cookies — please review their privacy policies.</p>
+    <h2>4. Managing local storage</h2>
+    <p>You can clear site data through your browser's privacy or site settings. Doing so resets the saved theme and consent-banner choice. Browser help pages explain how to manage this data in Chrome, Firefox, Safari, and Edge.</p>
 
-    <h2>6. Updates</h2>
-    <p>We may update this Cookie Policy periodically. Any significant changes will be posted on this page.</p>
-
-    <h2>7. Contact</h2>
-    <p>For questions, email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
+    <h2>5. Contact</h2>
+    <p>Questions? Email <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a>.</p>
   </LegalLayout>
 );
 

@@ -9,6 +9,10 @@ export default defineConfig({
     tailwindcss(),
     vike(),
   ],
+  build: {
+    outDir: 'build',
+    emptyOutDir: true,
+  },
   server: {
     port: 3000,
   },

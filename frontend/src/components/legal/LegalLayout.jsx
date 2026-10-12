@@ -12,7 +12,7 @@ const LegalLayout = ({ title, subtitle, lastUpdated, children }) => {
 
       <div className="relative z-10 container mx-auto px-4 pt-32 pb-20 max-w-4xl">
         <a
-          href="/home"
+          href="/"
           className="inline-flex items-center text-accent hover:text-amber-300 text-sm group mb-8"
         >
           <svg className="w-4 h-4 mr-1.5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

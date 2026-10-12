@@ -18,18 +18,13 @@ const DMCA = () => (
 
     <h2>2. Our Response</h2>
     <ul>
-      <li>We will review your notice within 5 business days.</li>
       <li>If valid, we will remove or disable access to the infringing content.</li>
-      <li>We will notify the user who posted the content.</li>
     </ul>
 
     <h2>3. Counter-Notice</h2>
-    <p>If your content was removed and you believe it was a mistake, you may file a counter-notice with the same information requirements. We will forward it to the original complainant.</p>
+    <p>If content is removed and you believe the action was a mistake, contact us with the relevant URL and an explanation. We will handle the request in accordance with applicable law.</p>
 
-    <h2>4. Repeat Infringers</h2>
-    <p>Accounts that repeatedly post infringing content will be permanently terminated.</p>
-
-    <h2>5. Contact</h2>
+    <h2>4. Contact</h2>
     <p>DMCA Agent: <a href="mailto:sadisheikh169@gmail.com">sadisheikh169@gmail.com</a></p>
   </LegalLayout>
 );

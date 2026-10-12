@@ -1,5 +1,26 @@
 # React + Vite
 
+## Adding a blog post
+
+Add one `.md` file to `src/data/posts/`. Its filename must match the `slug` in the frontmatter:
+
+```md
+---
+title: "Your article title"
+slug: your-article-title
+date: 2026-10-12
+description: "A concise summary for cards and search results."
+category: Technology
+image: ../../images/creator.jpg
+---
+
+Write the article here using Markdown headings and paragraphs.
+```
+
+The frontmatter fields `title`, `slug`, `date` (`YYYY-MM-DD`), `description`, `category`, and `image` are required. Use an image from `src/images` with a relative path such as `../../images/creator.jpg`. The build imports these files locally, creates an HTML page at `/blog/<slug>/`, and updates `sitemap.xml`; no route or data code changes are needed.
+
+For Cloudflare Pages, use `npm run build` with `build/client` as the output directory. Replace `YOURDOMAIN.com` in `src/pages/+data.js` and the Web3Forms `YOUR_ACCESS_KEY` placeholder on the Contact page before launch.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

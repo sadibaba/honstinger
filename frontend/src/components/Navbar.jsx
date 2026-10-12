@@ -1,42 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { navigate } from 'vike/client/router';
-import { usePageContext } from 'vike-react/usePageContext';
 import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
-  const pageContext = usePageContext();
-  const urlPathname = pageContext?.urlPathname || '/';
-
   const [scrolled, setScrolled] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    if (typeof window === 'undefined') return;
-
-    setIsAdmin(localStorage.getItem('isAdmin') === 'true');
-
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [urlPathname]);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    setIsAdmin(localStorage.getItem('isAdmin') === 'true');
-  }, [urlPathname]);
-
-  const handleLogout = () => {
-    if (typeof window === 'undefined') return;
-    localStorage.removeItem('isAdmin');
-    localStorage.removeItem('adminEmail');
-    setIsAdmin(false);
-    navigate('/');
-  };
-
-  if (urlPathname === '/admin-login') return null;
+  }, []);
 
   return (
     <nav
@@ -58,25 +31,12 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <a href="/" className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">Home</a>
             <a href="/posts" className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">Stories</a>
-            <a href="/details" className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">Details</a>
+            <a href="/about" className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">About</a>
+            <a href="/contact" className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">Contact</a>
           </div>
 
           <div className="flex items-center space-x-3">
             <ThemeToggle />
-            {mounted && isAdmin ? (
-              <>
-                <a href="/admin" className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/20 text-accent rounded-full text-xs font-bold hover:bg-accent/30 transition-colors">
-                  Dashboard
-                </a>
-                <button onClick={handleLogout} className="text-text-secondary hover:text-red-400 transition-colors text-sm font-medium">
-                  Logout
-                </button>
-              </>
-            ) : mounted ? (
-              <a href="/admin-login" className="px-5 py-2 bg-accent text-primary rounded-full text-sm font-bold hover:bg-amber-300 transition-colors">
-                Admin
-              </a>
-            ) : null}
           </div>
         </div>
       </div>

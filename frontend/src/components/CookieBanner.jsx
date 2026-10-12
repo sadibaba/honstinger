@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CookieBanner = () => {
@@ -36,8 +35,8 @@ const CookieBanner = () => {
                   🍪 We use cookies
                 </p>
                 <p className="text-text-secondary text-xs font-serif">
-                  We use cookies to improve your experience, remember your theme, and analyze traffic.
-                  Read our <Link to="/cookies" className="text-accent underline">Cookie Policy</Link>.
+                  We use browser storage to remember your theme and this consent choice. We do not run analytics.
+                  Read our <a href="/cookies" className="text-accent underline">Cookie Policy</a>.
                 </p>
               </div>
               <div className="flex gap-2 flex-shrink-0">
