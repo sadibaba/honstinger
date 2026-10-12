@@ -1,56 +1,37 @@
----
-title: "Microsoft: From Desktop Software to Cloud and AI"
+title: "Microsoft: From desktop software to the cloud and artificial intelligence"
+
 slug: microsoft-company-history
+
 date: 2026-10-12
-description: "Trace Microsoft's path from early personal-computing software to Windows, Office, Azure, developer tools, gaming, and a new era of AI."
+
+description: "Microsoft's rise from early personal-computing software, through Windows, Office, and Azure in to developers, games, and a new age of AI."
+
 category: Technology
+
 image: ../../images/creator.jpg
 ---
 
-Microsoft's story follows the expansion of computing from a specialist activity into a tool used at work, at home, and across the internet. The company began by writing software for early microcomputers, then built a business around operating systems and productivity applications. In more recent decades, it has shifted from packaged programs toward cloud services, subscriptions, developer platforms, gaming, and artificial intelligence. Those changes have kept Microsoft central to technology even as the industry around it has been repeatedly transformed.
-
+Microsoft's history is the evolution of software from a niche to pervasive tools, platforms, and services across workplace, home, and the internet. It started with programming languages for microcomputers, built its business around operating systems and productivity applications, and has moved in the last decade or so from boxed products to the cloud, to developers, to gamers, and into artificial intelligence. Microsoft has stayed at the heart of the industry as it has repeatedly re-invented itself.
 ## A software company at the dawn of personal computing
-
-Microsoft was founded in 1975 by Bill Gates and Paul Allen. Their first widely known product was a version of the BASIC programming language for the Altair 8800, one of the early personal computers sold as a kit. The founders believed that software would become essential as computers became smaller and more affordable. Rather than focus on building a single machine, they set out to provide programs that could run on computers made by different manufacturers.
-
-That model gained momentum when IBM selected Microsoft to provide an operating system for its personal computer. Microsoft obtained and adapted an existing system, which became MS-DOS. Because IBM-compatible computers were built by many companies, DOS spread across a broad hardware market. Microsoft licensed its software to manufacturers instead of restricting it to one company's computer, a decision that helped its products become standards for business and home computing.
-
+Microsoft was founded in 1975 by Bill Gates and Paul Allen. Their first major product was a version of the BASIC programming language for the Altair 8800, one of the first personal computers sold in kit form. Gates and Allen expected that personal computers would be ubiquitous and software would be a key enabler. Rather than designing a single computer, they sought to provide software that could run on different manufacturers' machines.
+This approach was vindicated when IBM chose Microsoft to supply an operating system for its personal computer. Microsoft bought an existing operating system and enhanced it to create MS-DOS. IBM-compatible computers were produced by many manufacturers. Microsoft's approach of licensing its software for use on a variety of computers, rather than tying it to a particular hardware configuration, contributed to its subsequent dominance.
 ## Windows and the office desktop
-
-Windows brought a graphical interface to Microsoft's PC platform. Early versions built on DOS, but Windows 3.0 in 1990 helped make the environment substantially more popular. Windows 95 later combined a familiar desktop, a Start menu, and improved support for consumer hardware. The operating system became a common foundation for software from many vendors, and its broad compatibility made it valuable to organizations that relied on a wide range of applications and devices.
-
+Windows added graphical elements to Microsoft's personal computer platform. Early versions of Windows were based on DOS, but Microsoft's Windows 3.0 in 1990 was much more broadly adopted. Later Windows versions such as Windows 95 combined a familiar desktop with a Start menu and more enhanced support for consumer hardware. The Windows operating system formed a common core for many software vendors, and its widespread adoption across different application and hardware domains made it an important platform within corporations.
 ### Productivity software becomes a platform
-
-Microsoft Office brought Word, Excel, and PowerPoint together in a suite that became familiar in schools, offices, and homes. The programs were useful individually, but their shared interface and ability to exchange files helped make the suite a standard for creating documents, spreadsheets, and presentations. Microsoft's business depended increasingly on the relationship between Windows and Office: the operating system provided a platform, while productivity software gave people a daily reason to use it.
-
+Microsoft Office bundled Word, Excel, and PowerPoint together in a software suite familiar in schools, offices, and home use. While these applications were valuable, their increased commonality of use and ability to share and exchange documents enabled a broader ecosystem of productivity software.
+Microsoft's business model depended heavily on its ability to provide Windows as a platform, paired with Office providing user productivity applications.
 ## The internet changes the direction
-
-The rapid growth of the web challenged Microsoft's desktop-centered business. The company initially treated the internet as an addition to Windows, but eventually invested in browsers, online services, and data centers. Its search engine evolved into Bing, while services such as Hotmail and later Outlook.com connected email to Microsoft's broader account system. The company also built Xbox into a major gaming business, showing that its ambitions extended beyond productivity software and corporate technology.
-
-A major strategic change came with the rise of cloud computing. Instead of buying and maintaining every server, organizations could rent computing capacity and software over the internet. Microsoft introduced Azure in 2010, offering virtual machines, storage, databases, networking, and developer services. Azure grew into a broad cloud platform where customers can run applications, manage data, build websites, and use tools for analytics and machine learning.
-
+The rise of the web presented a major challenge to Microsoft's dominance of the desktop. Microsoft's initial response was to view the web as being built on top of Windows, but the firm eventually built web browsers, online services, and datacenters. Its once-dominant search engine evolved into Bing while email services such as Hotmail and later Outlook.com became part of a larger account system. Microsoft also expanded its Xbox game console into a major entertainment business, building an ecosystem beyond its productivity roots.
+A significant change in direction came with the rise of cloud computing. Rather than individual servers being purchased and maintained by businesses, these could be rented over the internet. Microsoft launched Azure in 2010 - a cloud services platform offering virtual machines, storage, databases, networking, and developer tools. Azure has since evolved into a platform that can support web applications, data processing, websites, and analytical and machine learning platforms.
 ## Subscriptions and services
-
-Microsoft moved Office from a one-time purchase to Microsoft 365, a subscription combining familiar applications with cloud storage and collaboration. Teams became a hub for meetings and shared files. Acquisitions such as LinkedIn and GitHub extended the company's reach into professional networking and software development.
-
-This shift changed how Microsoft earns revenue and how it delivers updates. A subscription can provide customers with current software and connected services, while giving Microsoft a recurring relationship with them. It also means that accounts, internet access, pricing, and data practices matter more than they did for a boxed copy of a desktop program. For organizations, cloud services can simplify operations, but they also create questions about cost management, vendor dependence, security, and where information is stored.
-
+Microsoft has transitioned some of its software - notably Office - from a product sold on a one-off basis to a subscription known as Microsoft 365, which combines familiar software with online storage and collaboration tools. Teams has become a central tool for meetings and file sharing. Acquiring services such as LinkedIn and GitHub has enabled Microsoft to engage more with the professional and open source software development communities.
+This transition in how Microsoft delivers software has had major implications for how the company makes money from its products and how it updates and supports its software over time. A subscription can provide regular service updates and enhancements to the user, while also creating a connection between the customer and Microsoft. Microsoft's subscription model also means that factors such as account ownership, internet access, costs, and data privacy are significantly more important than with a traditional PC application. The move to cloud services has important advantages for businesses, but it has also created a number of new questions about costs and how best to manage the risks associated with a reliance on a single provider and the ongoing security and availability of the systems.
 ## Azure, open source, and modern development
-
-Microsoft's modern identity extends well beyond Windows. Azure supports Linux and open-source technologies, and Visual Studio Code runs across operating systems. GitHub and Azure DevOps help software teams collaborate, test, and deploy applications.
-
+Microsoft's modern history is not just one of its Windows operating system. Azure is increasingly being applied on Linux-based environments and open source platforms. The company's Visual Studio Code tools run across different operating system platforms, while GitHub and Azure DevOps are supporting collaboration and development across these different domains.
 ### A platform for many workloads
-
-Azure combines services for websites, databases, data processing, and AI. Customers still need to manage cost, security, and the effort of moving mature systems between providers.
-
+Azure provides a range of services from basic websites and databases to data analytics and artificial intelligence. Users still need to manage costs, security, and the complexities of migrating existing applications to a new platform.
 ## Artificial intelligence enters the product family
-
-Artificial intelligence has become a major focus across Microsoft's business. The company has added AI capabilities to Azure, developer tools, Windows, and Microsoft 365, while expanding its partnership with OpenAI. Azure provides infrastructure and model services for developers, and Copilot-branded features use language models to assist with tasks such as summarizing, drafting, searching, and writing code.
-
-These features are promising, but they are not substitutes for judgment. AI systems can produce incorrect answers, omit context, or reflect limitations in their training data. Businesses must consider privacy, security, accuracy, accessibility, and the possibility that automated output will be mistaken for verified information. Microsoft therefore faces a challenge familiar from earlier platform shifts: turning a powerful technical capability into a product that is useful, dependable, and understandable to a wide range of customers.
-
+Artificial intelligence has become a core focus for Microsoft. The company has been adding artificial intelligence capabilities in Azure, development tools, Windows, and Microsoft 365 as well as enhancing its relationships with other artificial intelligence ventures such as OpenAI. Azure provides developers with infrastructure and model tools, while Copilot-branded products provide language models that help in activities such as summarising, document creation, search, and coding.
+These are valuable capabilities, but they need to be evaluated in terms of the limitations of current approaches to artificial intelligence. Microsoft and other companies need to ensure that issues around privacy, accuracy, security, and accessibility are considered, and that users are aware that the models are not always correct nor complete in their responses. Microsoft is grappling with the same challenge it has faced with other platform changes - how to harness this compelling new technology in a manner that creates value for a broad range of customers.
 ## A company still in transition
-
-Microsoft's history is a sequence of expansions: from programming languages to operating systems, from desktop productivity to enterprise software, and from installed programs to cloud platforms. Windows and Office remain important, but they now sit alongside Azure, Xbox, LinkedIn, GitHub, and AI services. That breadth gives Microsoft many ways to reach customers, while also requiring the company to balance products with different audiences and expectations.
-
-The next stage will depend on whether cloud and AI create lasting value while remaining trustworthy. Microsoft's reach across an existing ecosystem is a major advantage and a responsibility. From early PCs to cloud infrastructure, its influence comes from tools that help people and organizations do useful work at scale.
+Microsoft's history is one of expansion and evolution. It has gone from programming languages to operating systems to productivity software to enterprise cloud infrastructure. Microsoft has expanded its reach to different domains - Windows and Office are no longer the sole focus of the firm's activities, but instead have to be balanced with their Xbox gaming, LinkedIn social media and GitHub open source software counterparts. Microsoft's success in its new domains will rely on its ability to exploit the opportunities of its reach across an existing ecosystem while not losing the focus of its individual products and services.
