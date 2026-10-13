@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const frontendDirectory = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const postsDirectory = path.join(frontendDirectory, 'src', 'data', 'posts');
 const outputDirectory = path.join(frontendDirectory, 'build', 'client');
-const siteUrl = 'https://YOURDOMAIN.com';
+const siteUrl = 'https://chronica.website';
 const staticRoutes = [
   '/',
   '/posts',

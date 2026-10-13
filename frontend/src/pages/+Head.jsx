@@ -2,7 +2,7 @@ import React from 'react';
 import { usePageContext } from 'vike-react/usePageContext';
 import { getPostBySlug } from '../data/posts';
 
-const SITE_URL = 'https://YOURDOMAIN.com';
+const SITE_URL = 'https://chronica.website';
 const pageSeo = {
   '/': {
     title: 'Chronica — Stories of Remarkable People',
